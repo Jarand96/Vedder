@@ -1,0 +1,7 @@
+Flask
+itsdangerous
+flask-cors
+pymongo
+Werkzeug
+flask_socketio
+eventlet
