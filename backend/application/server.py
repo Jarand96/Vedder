@@ -47,4 +47,4 @@ def is_token_valid():
         else:
             return jsonify(token_is_valid=False), 403
     except:
-return jsonify(error=True), 404
+        return jsonify(error=True), 404

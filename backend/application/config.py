@@ -1,2 +1,2 @@
 class BaseConfig(object):
-SECRET_KEY = "SO_SECURE"
+    SECRET_KEY = "SO_SECURE"

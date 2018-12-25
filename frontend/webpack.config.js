@@ -22,8 +22,12 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
+        loader: ['babel-loader'],
         exclude: /node_modules/,
+        query:{
+          presets: ['react','es2015'],
+          plugins: ['transform-class-properties']
+        }
       },
       {
         // https://github.com/jtangelder/sass-loader
