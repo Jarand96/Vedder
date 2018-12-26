@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { store } from "./store.js";
 import { router } from "./router.js";
+var url = 'http://127.0.0.1:5000/';
+export { url }
 
 // render the main component
 ReactDOM.render(

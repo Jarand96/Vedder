@@ -14,7 +14,7 @@ export function* LoginRequest(action) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      'username':action.payload.username,
+      'email':action.payload.email,
       'password' : action.payload.password
     })
   });
@@ -34,7 +34,7 @@ export function* LoginRequest(action) {
   }
   else{
     yield put({ type: 'SET_STATUSTEXT', payload: {
-      statusText : "Invalid username or password",
+      statusText : "Invalid email or password",
       status : "error"
     }});
     yield call(delay, 4000);
@@ -46,16 +46,15 @@ export function* LoginRequest(action) {
 
 export function* RegisterRequest(action) {
   //Make login post request to api here.
-  const response = yield call(fetch, url+'user', {
-    method:'CREATE',
+  const response = yield call(fetch, url+'register', {
+    method:'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      'username':action.payload.username,
+      'email':action.payload.email,
       'password' : action.payload.password,
-      'adminpassword' : action.payload.adminpassword
     })
   });
 

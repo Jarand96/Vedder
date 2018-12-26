@@ -1,26 +1,18 @@
 import React from "react";
 import { reduxForm, Field } from 'redux-form'
-import isValidEmail from 'sane-email-validation'
 import { Button } from 'react-bootstrap';
 
+const required = value => value ? undefined : 'Required'
+const email = value =>
+  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
+  'Invalid email address' : undefined
+const minValue = min => value =>
+  value && value < min ? `Must be at least ${min}` : undefined
+const minValue1 = minValue(1)
 const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined
-const minLength = min => value =>
-    value && value.length < min ? `Must be ${min} characters or more` : undefined
-
 const maxLength40 = maxLength(40)
-const minLength2 = minLength(2)
 
-const validate = values => {
-  const errors = {}
-  if (!values.username){
-    errors.username = 'Required'
-  }
-  if (!values.password){
-    errors.password = 'Required'
-  }
-  return errors
-}
 
 const renderInput = ({ input, type, label, meta}) =>
   <div>
@@ -35,9 +27,10 @@ const RegisterForm = props => {
   const  {handleSubmit, callbackSubmit } = props;
   return(
   <form onSubmit={handleSubmit(callbackSubmit)}>
-      <Field name="username" validate={[maxLength40, minLength2]} label="Lagnavn" type="text" component={renderInput}/>
+      <Field name="email" validate={[email, required]} label="E-post" type="text" component={renderInput}/>
       <Field name="password" type="password" label="Password" component={renderInput}/>
-      <Field name="adminpassword" type="password" label="Admin Password" component={renderInput}/>
+      <Field name="firstname" validate={[required, minValue1, maxLength40]} label="First name" type="text" component={renderInput}/>
+      <Field name="lastname" validate={[required, minValue1, maxLength40]} label="Last name" type="text" component={renderInput}/>
     <Button type="submit">Submit</Button>
   </form>
   );

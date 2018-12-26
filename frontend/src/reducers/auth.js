@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 
 let initialState = {
  token: null,
- userName: null,
+ email: null,
  isAuthenticated: false,
  isAuthenticating: false,
  isRegistering: false,
@@ -18,7 +18,7 @@ function authReducer(state = initialState, action) {
            isAuthenticated:true,
            isAuthenticating:false,
            token : action.payload,
-           userName: jwtDecode(action.payload).username,
+           email: jwtDecode(action.payload).email,
            statusText: 'You have been successfully logged in.'
          };
          break;
@@ -35,7 +35,7 @@ function authReducer(state = initialState, action) {
       case 'LOGGED_OUT':
           return {...state,
             token: null,
-            userName: null,
+            email: null,
             isAuthenticated: false,
             isAuthenticating: false,
             isRegistering: false,
