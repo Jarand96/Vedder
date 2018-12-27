@@ -26,10 +26,11 @@ def get_user_with_email_and_password(email,password):
 def Login():
     try:
         incoming = request.get_json()
+        print(incoming)
         if email_is_valid(incoming["email"]) is False:
             return jsonify(error=True), 404
-        user = get_user_with_email_and_password(
-        incoming["email"].lower().strip(), incoming["password"])
+        print("Email is valid - Checking database.")
+        user = get_user_with_email_and_password(incoming["email"].lower().strip(), incoming["password"])
         if user:
             user = User(
                 _id = str(user['_id']),
@@ -71,13 +72,16 @@ def create_user():
 
         user = users.find_one({"email": email.lower()})
         if user:
+            print("user already in db")
             return jsonify(message="email already exists"), 409
 
         hashed_password = generate_password_hash(incoming["password"], method='sha256')
-        inserted_id = users.insert_one(
-        {'email':email.lower(),'password':hashed_password,
-        'firstname':incoming['firstname'], 'lastname': incoming['lastname'] })
-
+        inserted_id = users.insert_one({
+        'email':email.lower(),
+        'password': hashed_password,
+        'firstname': incoming['firstname'],
+        'lastname': incoming['lastname']
+        })
         user = User(
             _id = inserted_id,
             email = email,

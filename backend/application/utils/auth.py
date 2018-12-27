@@ -45,7 +45,7 @@ def requires_auth(f):
     return decorated
 
 def email_is_valid(email):
-    sanitized_email = re.sub('[^@]+@[^@]+\.[^@]+', '', email)
-    if sanitized_email.lower()==email.lower():
-        return True
-    return False
+    EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
+    if not EMAIL_REGEX.match(email):
+        return False
+    return True

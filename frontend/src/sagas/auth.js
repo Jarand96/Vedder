@@ -55,6 +55,8 @@ export function* RegisterRequest(action) {
     body: JSON.stringify({
       'email':action.payload.email,
       'password' : action.payload.password,
+      'firstname' : action.payload.firstname,
+      'lastname' : action.payload.lastname
     })
   });
 
