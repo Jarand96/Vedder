@@ -3,6 +3,11 @@ import { reduxForm, Field} from 'redux-form';
 import isValidEmail from 'sane-email-validation';
 import { Button } from 'react-bootstrap';
 
+const required = value => value ? undefined : 'Required'
+const email = value =>
+  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
+  'Invalid email address' : undefined
+
 const validate = values => {
   const errors = {}
   if (!values.username){
@@ -27,7 +32,7 @@ const LoginForm = props => {
   const  {handleSubmit, callbackSubmit } = props;
   return(
   <form onSubmit={handleSubmit(callbackSubmit)}>
-      <Field name="username" type="text" label="Lagnavn" component={renderInput}/>
+      <Field name="email" validate={[email, required]} label="E-post" type="text" component={renderInput}/>
       <Field name="password" type="password" label="Passord" component={renderInput}/>
     <Button type="submit">Logg inn</Button>
   </form>

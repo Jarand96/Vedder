@@ -21,25 +21,20 @@ def get_user_with_email_and_password(email,password):
     else:
         return None
 
-
 @app.route("/Login", methods=['POST'])
 def Login():
     try:
         incoming = request.get_json()
-        print(incoming)
         if email_is_valid(incoming["email"]) is False:
             return jsonify(error=True), 404
-        print("Email is valid - Checking database.")
         user = get_user_with_email_and_password(incoming["email"].lower().strip(), incoming["password"])
         if user:
             user = User(
                 _id = str(user['_id']),
                 email = user['email'],
             )
-            print("Login Successful")
             return jsonify(generate_token(user))
         else:
-            print("User not found in Database.")
             return jsonify(error=True,
             errorMessage=
             "That user do not exist. Are you certain of your existance?"), 404
@@ -91,5 +86,17 @@ def create_user():
         else:
             return jsonify(error=True), 404
     #If any of the actions above fail, this stops the server from crashing.
+    except:
+        return jsonify(error=True), 404
+
+@requires_auth
+@app.route("/user", methods=['GET'])
+def get_user():
+    try:
+        email = g.current_user["email"]
+        user = users.find_one({"email": email})
+        return jsonify({
+        'firstname' : user['firstname'],
+        'lastname' : user['lastname']}), 200
     except:
         return jsonify(error=True), 404

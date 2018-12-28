@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
-import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
-class Login extends Component {
+class Settings extends Component {
 
   constructor(props) {
    super(props);
@@ -17,18 +17,20 @@ class Login extends Component {
   }
 
   submit = (values) => {
+  console.log(values)
   let { dispatch } = this.props
-  dispatch({type: "LOGIN_REQUEST", payload: {
+  dispatch({type: "REGISTER_REQUEST", payload: {
       'email' : values.email,
-      'password' : values.password
+      'password' : values.password,
+      'firstname' : values.firstname,
+      'lastname' : values.lastname,
     }});
   }
 
-  render(){
+  render() {
   	return (
-      <div className="login-wrapper">
-      <LoginForm callbackSubmit={this.submit} />
-      {this.props.auth.statusText}
+      <div>
+
       </div>
     )
   }
@@ -36,11 +38,10 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
-      forms: state.form,
-      auth: state.auth
+      forms: state.form
     };
 }
 
 export default connect(
   mapStateToProps,
-)(Login);
+)(Settings);
