@@ -14,23 +14,20 @@ class Settings extends Component {
 
   componentDidMount() {
     let { dispatch } = this.props
+    dispatch({type: "GET_USER", payload: this.props.auth.token});
   }
 
   submit = (values) => {
   console.log(values)
   let { dispatch } = this.props
-  dispatch({type: "REGISTER_REQUEST", payload: {
-      'email' : values.email,
-      'password' : values.password,
-      'firstname' : values.firstname,
-      'lastname' : values.lastname,
-    }});
   }
 
   render() {
+    if (this.props.user.length < 1) return (null)
   	return (
       <div>
-
+        <p>firstname: {this.props.user.firstname}</p>
+        <p>lastname: {this.props.user.lastname}</p>
       </div>
     )
   }
@@ -38,7 +35,9 @@ class Settings extends Component {
 
 function mapStateToProps(state) {
   return {
-      forms: state.form
+      auth:state.auth,
+      forms: state.form,
+      user:state.user,
     };
 }
 

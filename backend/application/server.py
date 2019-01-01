@@ -24,8 +24,10 @@ def get_user_with_email_and_password(email,password):
 @app.route("/Login", methods=['POST'])
 def Login():
     try:
+        Print("Trying to log in.")
         incoming = request.get_json()
         if email_is_valid(incoming["email"]) is False:
+            Print("Email not valid.")
             return jsonify(error=True), 404
         user = get_user_with_email_and_password(incoming["email"].lower().strip(), incoming["password"])
         if user:
@@ -35,6 +37,7 @@ def Login():
             )
             return jsonify(generate_token(user))
         else:
+            Print("Could not find user in db.")
             return jsonify(error=True,
             errorMessage=
             "That user do not exist. Are you certain of your existance?"), 404
@@ -89,8 +92,8 @@ def create_user():
     except:
         return jsonify(error=True), 404
 
-@requires_auth
 @app.route("/user", methods=['GET'])
+@requires_auth
 def get_user():
     try:
         email = g.current_user["email"]
