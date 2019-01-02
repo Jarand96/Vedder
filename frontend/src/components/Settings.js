@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
-import RegisterForm from './RegisterForm';
+import SettingsForm from './SettingsForm';
 
 class Settings extends Component {
 
@@ -24,10 +24,13 @@ class Settings extends Component {
 
   render() {
     if (this.props.user.length < 1) return (null)
+    let initialValue = {
+      'firstname' : this.props.user.firstname,
+      'lastname' : this.props.user.lastname
+    }
   	return (
       <div>
-        <p>firstname: {this.props.user.firstname}</p>
-        <p>lastname: {this.props.user.lastname}</p>
+        <SettingsForm callbackSubmit={this.submit} initialValues={initialValue} />
       </div>
     )
   }

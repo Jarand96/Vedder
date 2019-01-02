@@ -8,10 +8,8 @@ class Register extends Component {
   constructor(props) {
    super(props);
    const {dispatch} = props;
-
  // This binding is necessary to make `this` work in the callback
  }
-
   componentDidMount() {
     let { dispatch } = this.props
   }
