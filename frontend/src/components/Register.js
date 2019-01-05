@@ -15,7 +15,6 @@ class Register extends Component {
   }
 
   submit = (values) => {
-  console.log(values)
   let { dispatch } = this.props
   dispatch({type: "REGISTER_REQUEST", payload: {
       'email' : values.email,

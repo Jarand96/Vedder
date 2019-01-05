@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form'
 import SettingsForm from './SettingsForm';
 
 class Settings extends Component {
@@ -18,19 +19,19 @@ class Settings extends Component {
   }
 
   submit = (values) => {
-  console.log(values)
   let { dispatch } = this.props
+  dispatch({type: "UPDATE_USER", payload: {
+    'Authorization' : this.props.auth.token,
+    'firstname' : values.firstname,
+    'lastname' : values.lastname,
+  }});
   }
 
   render() {
     if (this.props.user.length < 1) return (null)
-    let initialValue = {
-      'firstname' : this.props.user.firstname,
-      'lastname' : this.props.user.lastname
-    }
   	return (
       <div>
-        <SettingsForm callbackSubmit={this.submit} initialValues={initialValue} />
+        <SettingsForm callbackSubmit={this.submit} />
       </div>
     )
   }

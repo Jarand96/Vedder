@@ -24,10 +24,10 @@ def get_user_with_email_and_password(email,password):
 @app.route("/Login", methods=['POST'])
 def Login():
     try:
-        Print("Trying to log in.")
+        print("Trying to log in.")
         incoming = request.get_json()
         if email_is_valid(incoming["email"]) is False:
-            Print("Email not valid.")
+            print("Email not valid.")
             return jsonify(error=True), 404
         user = get_user_with_email_and_password(incoming["email"].lower().strip(), incoming["password"])
         if user:
@@ -37,12 +37,11 @@ def Login():
             )
             return jsonify(generate_token(user))
         else:
-            Print("Could not find user in db.")
+            print("Could not find user in db.")
             return jsonify(error=True,
             errorMessage=
             "That user do not exist. Are you certain of your existance?"), 404
     except:
-        print
         return jsonify(error=True), 404
 
 @app.route("/is_token_valid", methods=["POST"])
@@ -97,7 +96,26 @@ def create_user():
 def get_user():
     try:
         email = g.current_user["email"]
+        #What if user cannot be found.
         user = users.find_one({"email": email})
+        return jsonify({
+        'firstname' : user['firstname'],
+        'lastname' : user['lastname']}), 200
+    except:
+        return jsonify(error=True), 404
+
+
+@app.route("/user", methods=['POST'])
+@requires_auth
+def update_user():
+    try:
+        email = g.current_user["email"]
+        incoming = request.get_json()
+        #What if user cannot be found.
+        user = users.find_one({"email": email})
+        user["firstname"] = incoming["firstname"]
+        user["lastname"] = incoming["lastname"]
+        users.save(user)
         return jsonify({
         'firstname' : user['firstname'],
         'lastname' : user['lastname']}), 200
