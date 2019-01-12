@@ -7,7 +7,7 @@ import { url } from '../index';
 export function* LoginRequest(action) {
   //Make login post request to api here.
   yield put({ type: 'LOGIN_REQUESTED'});
-  const response = yield call(fetch, url+'Login', {
+  const response = yield call(fetch, url+'login', {
     method:'POST',
     headers: {
       'Accept': 'application/json',
