@@ -5,7 +5,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired, BadSignature
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import request
-from .. import app, client, mydb, users
+from .db_handler import get_user_with_email
+from .. import app
 
 FOURTY_EIGHT_H = 172800
 
@@ -24,7 +25,7 @@ def verify_token(token):
         #Avoid db injections by removing special characters from email.
         if email_is_valid(data["email"]) is False:
             return None
-        user = users.find_one({"email": data["email"]})
+        user = get_user_with_email(data["email"])
         if user:
             return data
     except (BadSignature, SignatureExpired):

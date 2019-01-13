@@ -1,5 +1,6 @@
-from .. import app, client, mydb, users
 from ..utils.auth import generate_token, verify_token, requires_auth, email_is_valid
+from ..utils.db_handler import get_user_with_email, update_user
+from .. import app
 from flask import jsonify, request, g
 import json
 
@@ -9,10 +10,13 @@ def get_user():
     try:
         email = g.current_user["email"]
         #What if user cannot be found.
-        user = users.find_one({"email": email})
-        return jsonify({
-        'firstname' : user['firstname'],
-        'lastname' : user['lastname']}), 200
+        user = get_user_with_email(email)
+        if user:
+            return jsonify({
+            'firstname' : user['firstname'],
+            'lastname' : user['lastname']}), 200
+        else:
+            return jsonify(error=True), 404
     except:
         return jsonify(error=True), 404
 
@@ -22,13 +26,12 @@ def update_user():
     try:
         email = g.current_user["email"]
         incoming = request.get_json()
-        #What if user cannot be found.
-        user = users.find_one({"email": email})
-        user["firstname"] = incoming["firstname"]
-        user["lastname"] = incoming["lastname"]
-        users.save(user)
-        return jsonify({
-        'firstname' : user['firstname'],
-        'lastname' : user['lastname']}), 200
+        user = update_user(email)
+        if user:
+            return jsonify({
+            'firstname' : user['firstname'],
+            'lastname' : user['lastname']}), 200
+        return jsonify(error=True), 404
+
     except:
         return jsonify(error=True), 404
