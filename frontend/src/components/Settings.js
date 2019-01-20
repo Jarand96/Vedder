@@ -20,10 +20,12 @@ class Settings extends Component {
 
   submit = (values) => {
   let { dispatch } = this.props
+  //console.log(values);
   dispatch({type: "UPDATE_USER", payload: {
     'Authorization' : this.props.auth.token,
     'firstname' : values.firstname,
     'lastname' : values.lastname,
+    'file': values.avatar
   }});
   }
 

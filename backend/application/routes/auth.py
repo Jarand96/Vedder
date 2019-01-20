@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request, g
 from werkzeug.utils import secure_filename
 from .. import app
 from ..utils.auth import generate_token, verify_token, requires_auth, email_is_valid
-from ..utils.tools import create_uploading_folder, valid_register_input
+from ..utils.tools import valid_register_input
 from ..utils.db_handler import get_user_with_email_and_password,insert_user_to_db, User, user_already_in_db
 
 @app.route("/login", methods=['POST'])
@@ -17,7 +17,7 @@ def Login():
         if user:
             user = User(
                 _id = str(user['_id']),
-                email = user['email'],
+                data = user
             )
             return jsonify(generate_token(user))
         else:

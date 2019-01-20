@@ -1,5 +1,6 @@
 from ..utils.auth import generate_token, verify_token, requires_auth, email_is_valid
 from ..utils.db_handler import get_user_with_email, update_user
+from ..utils.tools import fileUpload
 from .. import app
 from flask import jsonify, request, g
 import json
@@ -26,7 +27,13 @@ def update_user():
     try:
         email = g.current_user["email"]
         incoming = request.get_json()
-        user = update_user(email)
+        if request.files['file']:
+            print("A file has been submitted.")
+            file = request.files['file']
+            print("Entering fileUpload function..")
+            fileUpload(email,file)
+        print(incoming)
+        user = update_user(email, incoming)
         if user:
             return jsonify({
             'firstname' : user['firstname'],
@@ -34,4 +41,4 @@ def update_user():
         return jsonify(error=True), 404
 
     except:
-        return jsonify(error=True), 404
+        return jsonify(error=True), 500

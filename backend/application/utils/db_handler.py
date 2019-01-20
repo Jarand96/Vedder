@@ -6,10 +6,10 @@ mydb = client["publisher_db"]
 users = mydb["users"]
 
 class User():
-    def __init__(self, _id, email, data):
-        self.email = email
+    def __init__(self, _id, data):
         self.active = True
         self._id = _id
+        self.email = data["email"]
         self.firstname = data["firstname"]
         self.lastname = data["lastname"]
         self.avatar = "default"
@@ -46,7 +46,6 @@ def insert_user_to_db(incoming):
     if inserted_id:
         user = User(
             _id = inserted_id,
-            email = incoming["email"],
             data = incoming
         )
         return user

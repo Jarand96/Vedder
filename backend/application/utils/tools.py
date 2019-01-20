@@ -1,16 +1,22 @@
 import os
+from werkzeug.utils import secure_filename
+from .. import app
 
-def create_uploading_folder(email):
-    #Start by stripping email from special characters
-    stripped_mail = ''.join(e for e in email if e.isalnum())
-    print(stripped_mail)
-    my_file = "./uploads"+stripped_mail
-    print(my_file)
-    #Proceed by checking if a folder already exists for the user
-    if my_file.exists():
-        print("The FOLDER exists!")
-        return True
-    print("Folder does not exist.")
+
+#Saves a file to server with unique filename. Returns destination-path
+def fileUpload(email, file):
+    print("Entered fileUpload function..Setting target folder.")
+    target=os.path.join(app.config['UPLOAD_FOLDER'],'test_docs')
+    print("Target folder is: " + target)
+    if not os.path.isdir(target):
+        print("It is not a dir.")
+        os.mkdir(target)
+        print("Created a directory")
+    filename = str(uuid.uuid4())
+    destination="/".join([target, filename])
+    #If file already exis, give it another name
+    file.save(destination)
+    return destination
 
 
 def valid_register_input(data):
