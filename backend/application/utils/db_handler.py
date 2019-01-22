@@ -70,3 +70,8 @@ def update_user(email,incoming):
         return user
     else:
         return None
+
+def update_user_profile_picture(email, filepath):
+    user = users.find_one({"email": email})
+    if user:
+        user["profile_pic"] = incoming["firstname"]

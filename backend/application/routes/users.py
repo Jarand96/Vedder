@@ -1,6 +1,6 @@
 from ..utils.auth import generate_token, verify_token, requires_auth, email_is_valid
-from ..utils.db_handler import get_user_with_email, update_user
-from ..utils.tools import fileUpload
+from ..utils.db_handler import get_user_with_email, update_user, update_user_profile_picture
+from ..utils.tools import update_user_profile_picture
 from .. import app
 from flask import jsonify, request, g
 import json
@@ -34,6 +34,27 @@ def update_user():
             fileUpload(email,file)
         print(incoming)
         user = update_user(email, incoming)
+        if user:
+            return jsonify({
+            'firstname' : user['firstname'],
+            'lastname' : user['lastname']}), 200
+        return jsonify(error=True), 404
+
+    except:
+        return jsonify(error=True), 500
+
+@app.route("/upload_profile_picture", methods=['POST'])
+@requires_auth
+def upload_user_profile_picture():
+    try:
+        email = g.current_user["email"]
+        if request.files['file'] is False:
+            return jsonify(error=True), 502
+        print("A file has been submitted.")
+        file = request.files['file']
+        print("Entering fileUpload function..")
+        filepath = fileUpload(email,file)
+        user = update_user_profile_picture(email, filepath)
         if user:
             return jsonify({
             'firstname' : user['firstname'],
