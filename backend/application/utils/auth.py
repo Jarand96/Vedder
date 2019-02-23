@@ -13,8 +13,8 @@ FOURTY_EIGHT_H = 172800
 def generate_token(user, expiration=FOURTY_EIGHT_H):
     s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
     token = s.dumps({
-        'id': str(user._id),
-        'email': user.email,
+        'id': str(user["_id"]),
+        'email': user["email"],
     }).decode('utf-8')
     return token
 

@@ -1,43 +1,39 @@
-from ..utils.auth import generate_token, verify_token, requires_auth, email_is_valid
-from ..utils.db_handler import get_user_with_email, update_user, update_user_profile_picture
-from ..utils.tools import update_user_profile_picture
-from .. import app
+"""sefsef"""
+
 from flask import jsonify, request, g
-import json
+from ..utils.auth import requires_auth
+from ..utils.db_handler import get_user_with_email, update_user, update_user_profile_picture
+from ..utils.tools import fileUpload
+from .. import app
 
 @app.route("/user", methods=['GET'])
 @requires_auth
 def get_user():
+    """sefsef"""
     try:
         email = g.current_user["email"]
         #What if user cannot be found.
         user = get_user_with_email(email)
         if user:
             return jsonify({
-            'firstname' : user['firstname'],
-            'lastname' : user['lastname']}), 200
-        else:
-            return jsonify(error=True), 404
+                'firstname' : user['firstname'],
+                'lastname' : user['lastname']}), 200
+        return jsonify(error=True), 404
     except:
         return jsonify(error=True), 404
 
 @app.route("/user", methods=['POST'])
 @requires_auth
-def update_user():
+def post_user():
+    """awdawd"""
     try:
         email = g.current_user["email"]
         incoming = request.get_json()
-        if request.files['file']:
-            print("A file has been submitted.")
-            file = request.files['file']
-            print("Entering fileUpload function..")
-            fileUpload(email,file)
-        print(incoming)
         user = update_user(email, incoming)
         if user:
             return jsonify({
-            'firstname' : user['firstname'],
-            'lastname' : user['lastname']}), 200
+                'firstname' : user['firstname'],
+                'lastname' : user['lastname']}), 200
         return jsonify(error=True), 404
 
     except:
@@ -46,19 +42,19 @@ def update_user():
 @app.route("/upload_profile_picture", methods=['POST'])
 @requires_auth
 def upload_user_profile_picture():
+    """sefsef"""
     try:
         email = g.current_user["email"]
         if request.files['file'] is False:
             return jsonify(error=True), 502
         print("A file has been submitted.")
-        file = request.files['file']
-        print("Entering fileUpload function..")
-        filepath = fileUpload(email,file)
+        file_from_req = request.files['file']
+        filepath = fileUpload(file_from_req)
         user = update_user_profile_picture(email, filepath)
         if user:
             return jsonify({
-            'firstname' : user['firstname'],
-            'lastname' : user['lastname']}), 200
+                'firstname' : user['firstname'],
+                'lastname' : user['lastname']}), 200
         return jsonify(error=True), 404
 
     except:

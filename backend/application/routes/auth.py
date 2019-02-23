@@ -1,34 +1,35 @@
-import json
-from flask import Flask, jsonify, request, g
-from werkzeug.utils import secure_filename
+"""Author: Jarand Nikolai Jansen"""
+
+from flask import jsonify, request
 from .. import app
-from ..utils.auth import generate_token, verify_token, requires_auth, email_is_valid
+from ..utils.auth import generate_token, verify_token, email_is_valid
 from ..utils.tools import valid_register_input
-from ..utils.db_handler import get_user_with_email_and_password,insert_user_to_db, User, user_already_in_db
+from ..utils.db_handler import get_user_with_email_and_password
+from ..utils.db_handler import insert_user_to_db, user_already_in_db
 
 @app.route("/login", methods=['POST'])
-def Login():
+def login():
+    """Fill in docstring"""
     try:
         incoming = request.get_json()
         print(incoming)
         if email_is_valid(incoming["email"]) is False:
             return jsonify(error=True), 400
-        user = get_user_with_email_and_password(incoming["email"].lower().strip(), incoming["password"])
+        user = get_user_with_email_and_password(
+            incoming["email"].lower().strip(), incoming["password"]
+        )
         if user:
-            user = User(
-                _id = str(user['_id']),
-                data = user
-            )
             return jsonify(generate_token(user))
-        else:
-            return jsonify(error=True,
-            errorMessage=
-            "That user do not exist. Are you certain of your existance?"), 404
+
+        return jsonify(error=True,
+                       errorMessage=
+                       "That user do not exist. Are you certain of your existance?"), 404
     except:
         return jsonify(error=True), 500
 
 @app.route("/is_token_valid", methods=["POST"])
 def is_token_valid():
+    """Fill in docstring"""
     try:
         incoming = request.get_json()
         is_valid = verify_token(incoming["token"])
@@ -41,6 +42,7 @@ def is_token_valid():
 
 @app.route('/register', methods=['POST'])
 def create_user():
+    """Fill in docstring"""
     try:
         print("getting request data.")
         incoming = request.get_json()
