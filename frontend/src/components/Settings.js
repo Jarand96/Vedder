@@ -28,12 +28,23 @@ class Settings extends Component {
     'file': values.avatar
   }});
   }
+  filesubmit = (values) => {
+  let { dispatch } = this.props
+  //console.log(values);
+  dispatch({type: "UPDATE_USER", payload: {
+    'Authorization' : this.props.auth.token,
+    'firstname' : values.firstname,
+    'lastname' : values.lastname,
+    'file': values.avatar
+  }});
+  }
 
   render() {
     if (this.props.user.length < 1) return (null)
   	return (
       <div>
         <SettingsForm callbackSubmit={this.submit} />
+        <fileUploadForm callbackSubmit={this.filesubmit} />
       </div>
     )
   }
