@@ -53,9 +53,8 @@ def upload_user_profile_picture():
         user = update_user_profile_picture(email, filepath)
         if user:
             return jsonify({
-                'firstname' : user['firstname'],
-                'lastname' : user['lastname']}), 200
+                'filepath' : filepath}), 200
         return jsonify(error=True), 404
 
-    except:
-        return jsonify(error=True), 500
+    except ValueError as err:
+        return jsonify(error="Request did not receive the expected value: " + err), 500
