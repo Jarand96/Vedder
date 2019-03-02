@@ -12,34 +12,12 @@ const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined
 const maxLength40 = maxLength(40)
 
-const adaptFileEventToValue = delegate =>
-  e => delegate(e.target.files[0])
-
-const FileInput = ({
-  input: {
-    value: omitValue,
-    onChange,
-    onBlur,
-    ...inputProps,
-  },
-  meta: omitMeta,
-  ...props,
-}) =>
-  <input
-    onChange={adaptFileEventToValue(onChange)}
-    onBlur={adaptFileEventToValue(onBlur)}
-    type="file"
-    {...inputProps}
-    {...props}
-  />
-
 let SettingsForm = props => {
   const  {handleSubmit, callbackSubmit} = props;
   return(
   <form onSubmit={handleSubmit(callbackSubmit)}>
       <Field name="firstname" validate={[required, minValue1, maxLength40]} label="First name" type="text" component={renderInput}/>
       <Field name="lastname" validate={[required, minValue1, maxLength40]} label="Last name" type="text" component={renderInput}/>
-      <Field component={FileInput} name="avatar" />
     <Button type="submit">Submit</Button>
   </form>
   );

@@ -38,7 +38,7 @@ def insert_user_to_db(incoming):
     if inserted_id:
         user = {
             "_id": inserted_id,
-            "data": incoming
+            "email": incoming['email'].lower() ,
         }
         return user
     return None
