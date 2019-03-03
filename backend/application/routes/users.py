@@ -49,7 +49,9 @@ def upload_user_profile_picture():
             return jsonify(error=True), 502
         print("A file has been submitted.")
         file_from_req = request.files['file']
+        print(file_from_req)
         filepath = fileUpload(file_from_req)
+        print("This is the filepath: ", filepath)
         user = update_user_profile_picture(email, filepath)
         if user:
             return jsonify({

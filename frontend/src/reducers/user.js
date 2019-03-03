@@ -15,6 +15,11 @@ function userReducer(state = initialState, action) {
            lastname: action.payload.lastname,
          };
          break;
+       case 'SET_PROFILE_PIC':
+         return { ...state,
+            profile_pic_url: action.payload,
+          };
+          break;
     }
     return state;
   }

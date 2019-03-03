@@ -1,4 +1,5 @@
 import os
+import uuid
 from werkzeug.utils import secure_filename
 from .. import app
 
@@ -7,14 +8,17 @@ from .. import app
 def fileUpload(file):
     try:
         print("Entered fileUpload function..Setting target folder.")
-        target = os.path.join(app.config['UPLOAD_FOLDER'], 'test_docs')
+        target = app.config['UPLOAD_FOLDER']
         print("Target folder is: " + target)
         if not os.path.isdir(target):
             print("It is not a dir.")
             os.mkdir(target)
             print("Created a directory")
+        print("Creating unique filename")
         filename = str(uuid.uuid4())
+        print("The filename is: ", filename)
         destination="/".join([target, filename])
+        print("this is the final filepath: ", destination)
         #If file already exis, give it another name
         file.save(destination)
         return destination

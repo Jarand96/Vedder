@@ -40,7 +40,7 @@ export function* updateUserProfilePicture(action){
   formdata.append('file', action.payload.file);
 
     //Do api call to get user info, include token as authentication.
-    const response = yield call(fetch, url+'user', {
+    const response = yield call(fetch, url+ 'upload_profile_picture', {
       method:'POST',
       headers: {
        'Accept': 'application/json',

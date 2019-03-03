@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form'
-import SettingsForm from './SettingsForm';
+import SettingsForm from './SettingsForm'
+import FileUploadForm from './FileUploadForm'
 
 class Settings extends Component {
 
@@ -29,10 +30,9 @@ class Settings extends Component {
   }
   filesubmit = (values) => {
   let { dispatch } = this.props
-  //console.log(values);
   dispatch({type: "UPDATE_USER_PROFILE_PIC", payload: {
     'Authorization' : this.props.auth.token,
-    'file': values.avatar
+    'file': values.profile_pic
   }});
   }
 
@@ -41,7 +41,7 @@ class Settings extends Component {
   	return (
       <div>
         <SettingsForm callbackSubmit={this.submit} />
-        <fileUploadForm callbackSubmit={this.filesubmit} />
+        <FileUploadForm callbackSubmit={this.filesubmit} />
       </div>
     )
   }
