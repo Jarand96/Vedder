@@ -17,11 +17,11 @@ def fileUpload(file):
         print("Creating unique filename")
         filename = str(uuid.uuid4())
         print("The filename is: ", filename)
-        destination="/".join([target, filename])
-        print("this is the final filepath: ", destination)
+        filepath = "/".join([target, filename])
+        print("this is the final filepath: ", filepath)
         #If file already exis, give it another name
-        file.save(destination)
-        return destination
+        file.save(filepath)
+        return filepath, filename
     except:
         return None
 

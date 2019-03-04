@@ -2,7 +2,7 @@
 
 from flask import jsonify, request, g
 from ..utils.auth import requires_auth
-from ..utils.db_handler import get_user_with_email, update_user, update_user_profile_picture
+from ..utils.db_handler import get_user_with_email, update_user, update_user_profile_picture, insert_user_to_db
 from ..utils.tools import fileUpload
 from .. import app
 
@@ -17,7 +17,9 @@ def get_user():
         if user:
             return jsonify({
                 'firstname' : user['firstname'],
-                'lastname' : user['lastname']}), 200
+                'lastname' : user['lastname'],
+                'filename' : user['profile_pic']
+                }), 200
         return jsonify(error=True), 404
     except:
         return jsonify(error=True), 404
@@ -29,13 +31,14 @@ def post_user():
     try:
         email = g.current_user["email"]
         incoming = request.get_json()
+        print(incoming)
         user = update_user(email, incoming)
         if user:
             return jsonify({
-                'firstname' : user['firstname'],
-                'lastname' : user['lastname']}), 200
+                'firstname' : incoming['firstname'],
+                'lastname' : incoming['lastname'],
+                'filename' : user['profile_pic']}), 200
         return jsonify(error=True), 404
-
     except:
         return jsonify(error=True), 500
 
@@ -50,12 +53,14 @@ def upload_user_profile_picture():
         print("A file has been submitted.")
         file_from_req = request.files['file']
         print(file_from_req)
-        filepath = fileUpload(file_from_req)
+        filepath, filename = fileUpload(file_from_req)
         print("This is the filepath: ", filepath)
-        user = update_user_profile_picture(email, filepath)
+        user = update_user_profile_picture(email, filename)
         if user:
             return jsonify({
-                'filepath' : filepath}), 200
+                'filepath' : filepath,
+                'filename' : filename
+                }), 200
         return jsonify(error=True), 404
 
     except ValueError as err:

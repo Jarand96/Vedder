@@ -24,12 +24,13 @@ export function* updateUser(action){
       method:'POST',
       headers: {
        'Accept': 'application/json',
+       'Content-Type': 'application/json',
        'Authorization':action.payload.Authorization,
       },
-      body: {
-        'firstname': action.payload.firstname,
-        'lastname': action.payload.lastname
-      }
+      body: JSON.stringify(      {
+              'firstname': action.payload.firstname,
+              'lastname': action.payload.lastname
+            }) 
     });
     const data = yield call([response, response.json]);
     yield put({ type: 'GET_USERINFO', payload:data});
@@ -50,7 +51,7 @@ export function* updateUserProfilePicture(action){
       body: formdata
     });
     const data = yield call([response, response.json]);
-    yield put({ type: 'GET_USERINFO', payload:data});
+    yield put({ type: 'SET_PROFILE_PIC', payload:data});
 }
 
 export function* watchUser() {

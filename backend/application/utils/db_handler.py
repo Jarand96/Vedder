@@ -33,12 +33,13 @@ def insert_user_to_db(incoming):
         'email': incoming['email'].lower(),
         'password' : hashed_password,
         'firstname' : incoming['firstname'],
-        'lastname' : incoming['lastname']
+        'lastname' : incoming['lastname'],
+        'profile_pic' : 'default.png'
     })
     if inserted_id:
         user = {
             "_id": inserted_id,
-            "email": incoming['email'].lower() ,
+            "email": incoming['email'].lower(),
         }
         return user
     return None
@@ -63,11 +64,11 @@ def update_user(email, incoming):
         return user
     return None
 
-def update_user_profile_picture(email, filepath):
+def update_user_profile_picture(email, filename):
     """zef"""
     user = users.find_one({"email": email})
     if user:
-        user["profile_pic"] = filepath
+        user["profile_pic"] = filename
         users.save(user)
         return user
     return None

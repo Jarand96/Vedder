@@ -38,8 +38,13 @@ class Settings extends Component {
 
   render() {
     if (this.props.user.length < 1) return (null)
+    let url="http://127.0.0.1:5000/uploads/"
+    console.log(this.props)
   	return (
       <div>
+        {this.props.user.profile_pic_name &&
+          <img width="200px" src={url + this.props.user.profile_pic_name} />
+        }
         <SettingsForm callbackSubmit={this.submit} />
         <FileUploadForm callbackSubmit={this.filesubmit} />
       </div>
