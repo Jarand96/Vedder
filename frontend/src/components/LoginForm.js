@@ -29,9 +29,9 @@ const renderInput = ({ input, meta, label, type}) =>
   </div>
 
 const LoginForm = props => {
-  const  {handleSubmit, callbackSubmit } = props;
+  const  {handleSubmit} = props;
   return(
-  <form onSubmit={handleSubmit(callbackSubmit)}>
+  <form onSubmit={handleSubmit}>
       <Field name="email" validate={[email, required]} label="E-post" type="text" component={renderInput}/>
       <Field name="password" type="password" label="Passord" component={renderInput}/>
     <Button type="submit">Logg inn</Button>

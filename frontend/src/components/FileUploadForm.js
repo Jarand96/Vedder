@@ -26,9 +26,9 @@ const FileInput = ({
   />
 
 let fileUploadForm = props => {
-  const  {handleSubmit, callbackSubmit} = props;
+  const  {handleSubmit} = props;
   return(
-  <form onSubmit={handleSubmit(callbackSubmit)}>
+  <form onSubmit={handleSubmit}>
     <Field component={FileInput} name="profile_pic" />
     <Button type="submit">Upload file</Button>
   </form>

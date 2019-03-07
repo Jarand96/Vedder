@@ -57,7 +57,6 @@ export function requireAuthentication(Component) {
                                 browserHistory.push('/login');
                             }
                         });
-
                 }
             } else {
                 this.setState({

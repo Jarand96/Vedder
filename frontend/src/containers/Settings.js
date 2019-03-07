@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form'
-import SettingsForm from './SettingsForm'
-import FileUploadForm from './FileUploadForm'
+import SettingsForm from '../components/SettingsForm'
+import FileUploadForm from '../components/FileUploadForm'
 
 class Settings extends Component {
 
@@ -45,8 +45,8 @@ class Settings extends Component {
         {this.props.user.profile_pic_name &&
           <img width="200px" src={url + this.props.user.profile_pic_name} />
         }
-        <SettingsForm callbackSubmit={this.submit} />
-        <FileUploadForm callbackSubmit={this.filesubmit} />
+        <SettingsForm onSubmit={this.submit} />
+        <FileUploadForm onSubmit={this.filesubmit} />
       </div>
     )
   }

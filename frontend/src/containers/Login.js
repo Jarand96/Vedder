@@ -1,33 +1,34 @@
 import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
-import RegisterForm from './RegisterForm';
+import LoginForm from '../components/LoginForm';
 
-class Register extends Component {
+class Login extends Component {
 
   constructor(props) {
    super(props);
    const {dispatch} = props;
+
  // This binding is necessary to make `this` work in the callback
  }
+
   componentDidMount() {
     let { dispatch } = this.props
   }
 
   submit = (values) => {
   let { dispatch } = this.props
-  dispatch({type: "REGISTER_REQUEST", payload: {
+  dispatch({type: "LOGIN_REQUEST", payload: {
       'email' : values.email,
-      'password' : values.password,
-      'firstname' : values.firstname,
-      'lastname' : values.lastname,
+      'password' : values.password
     }});
   }
 
-  render() {
+  render(){
   	return (
-      <div>
-      <RegisterForm callbackSubmit={this.submit} />
+      <div className="login-wrapper">
+      <LoginForm onSubmit={this.submit} />
+      {this.props.auth.statusText}
       </div>
     )
   }
@@ -35,10 +36,11 @@ class Register extends Component {
 
 function mapStateToProps(state) {
   return {
-      forms: state.form
+      forms: state.form,
+      auth: state.auth
     };
 }
 
 export default connect(
   mapStateToProps,
-)(Register);
+)(Login);

@@ -34,9 +34,9 @@ const renderInput = ({ input, type, label, meta}) =>
   </div>
 
 const RegisterForm = props => {
-  const  {handleSubmit, callbackSubmit } = props;
+  const  {handleSubmit} = props;
   return(
-  <form onSubmit={handleSubmit(callbackSubmit)}>
+  <form onSubmit={handleSubmit}>
       <Field name="firstname" validate={[required, minValue1, maxLength40]} label="First name" type="text" component={renderInput}/>
       <Field name="lastname" validate={[required, minValue1, maxLength40]} label="Last name" type="text" component={renderInput}/>
       <Field name="email" validate={[email, required]} label="E-post" type="text" component={renderInput}/>

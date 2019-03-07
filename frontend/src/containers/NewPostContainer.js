@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
-import LoginForm from './LoginForm';
+import { reduxForm, Field } from 'redux-form'
+import NewPostForm from '../components/NewPost'
 
-class Login extends Component {
+class NewPostContainer extends Component {
 
   constructor(props) {
    super(props);
@@ -12,23 +13,15 @@ class Login extends Component {
  // This binding is necessary to make `this` work in the callback
  }
 
-  componentDidMount() {
-    let { dispatch } = this.props
-  }
-
-  submit = (values) => {
+  post_submit = (values) => {
   let { dispatch } = this.props
-  dispatch({type: "LOGIN_REQUEST", payload: {
-      'email' : values.email,
-      'password' : values.password
-    }});
+  console.log(values)
   }
 
-  render(){
+  render() {
   	return (
-      <div className="login-wrapper">
-      <LoginForm callbackSubmit={this.submit} />
-      {this.props.auth.statusText}
+      <div>
+        <NewPostForm onSubmit={this.post_submit} />
       </div>
     )
   }
@@ -36,11 +29,12 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
+      auth:state.auth,
       forms: state.form,
-      auth: state.auth
+      user:state.user,
     };
 }
 
 export default connect(
   mapStateToProps,
-)(Login);
+)(NewPostContainer);

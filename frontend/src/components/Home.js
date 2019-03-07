@@ -1,5 +1,7 @@
 import React from "react";
-import Settings from "./Settings"
+import Settings from "../containers/Settings"
+import NewPostContainer from "../containers/NewPostContainer"
+import Posts from "./Posts"
 
 // Home page component
 export default class Home extends React.Component {
@@ -7,7 +9,8 @@ export default class Home extends React.Component {
   render() {
     return (
       <div className="page-home">
-        <Settings />
+        <NewPostContainer />
+        <Posts />
       </div>
     );
   }

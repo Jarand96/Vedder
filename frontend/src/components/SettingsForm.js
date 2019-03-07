@@ -13,9 +13,9 @@ const maxLength = max => value =>
 const maxLength40 = maxLength(40)
 
 let SettingsForm = props => {
-  const  {handleSubmit, callbackSubmit} = props;
+  const  {handleSubmit} = props;
   return(
-  <form onSubmit={handleSubmit(callbackSubmit)}>
+  <form onSubmit={handleSubmit}>
       <Field name="firstname" validate={[required, minValue1, maxLength40]} label="First name" type="text" component={renderInput}/>
       <Field name="lastname" validate={[required, minValue1, maxLength40]} label="Last name" type="text" component={renderInput}/>
     <Button type="submit">Submit</Button>
