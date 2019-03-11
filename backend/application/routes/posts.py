@@ -48,7 +48,7 @@ def post_posts():
         print("A file has been submitted.")
         file_from_req = request.files['file']
         print(file_from_req)
-        print(request)
+        print(request.form)
         return jsonify(message='success'), 200
 
     except ValueError as err:
