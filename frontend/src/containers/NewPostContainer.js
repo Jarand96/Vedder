@@ -15,6 +15,7 @@ class NewPostContainer extends Component {
 
   post_submit = (values) => {
   let { dispatch } = this.props
+  console.log(values)
   dispatch({type: "POST_POST", payload: {
     'Authorization' : this.props.auth.token,
     'file': values.post_image,
