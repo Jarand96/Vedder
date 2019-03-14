@@ -1,7 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import renderInput from './renderInput';
-import FieldFileInput from './FieldFileInput';
 
 const adaptFileEventToValue = delegate =>
   e => {
@@ -9,7 +8,7 @@ const adaptFileEventToValue = delegate =>
     let filelist_array = Array.from(e.target.files)
     delegate(filelist_array)
   }
-  
+
 const FileInput = ({
   input: {
     value: omitValue,
@@ -34,7 +33,7 @@ const NewPostForm = props => {
   return (
     <form onSubmit={handleSubmit}>
         <Field name="text_content" type="textarea" component={renderInput}/>
-        <Field name="file_content" value={null} component={FileInput} />
+        <Field name="post_images" component={FileInput} />
 
       <div>
         <button type="submit">Submit</button>

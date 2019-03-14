@@ -42,11 +42,14 @@ def get_posts():
 def post_posts():
     """sefsef"""
     try:
+        print("It reached the post_posts method")
         email = g.current_user["email"]
-        if request.files['file'] is False:
+        print("The current user is: " + email)
+        print(request.files)
+        if request.files['file_0'] is False:
             return jsonify(error=True), 502
         print("A file has been submitted.")
-        file_from_req = request.files['file']
+        file_from_req = request.files['file_0']
         print(file_from_req)
         print(request.form)
         return jsonify(message='success'), 200

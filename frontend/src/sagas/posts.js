@@ -21,8 +21,10 @@ export function* getPosts(action){
 export function* postPost(action){
     //Do api call to get user info, include token as authentication.
     const formdata = new FormData();
-    formdata.append('file', action.payload.file);
-    formdata.append('content-text', action.payload.text_content)
+    formdata.append('content_text', action.payload.text_content)
+    action.payload.post_images.forEach(function(image, index){
+      formdata.append("file_" + index, image)
+    });
 
     const response = yield call(fetch, url+'post', {
       method:'POST',

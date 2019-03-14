@@ -30,7 +30,7 @@ export function* updateUser(action){
       body: JSON.stringify(      {
               'firstname': action.payload.firstname,
               'lastname': action.payload.lastname
-            }) 
+            })
     });
     const data = yield call([response, response.json]);
     yield put({ type: 'GET_USERINFO', payload:data});
@@ -39,7 +39,7 @@ export function* updateUser(action){
 export function* updateUserProfilePicture(action){
   const formdata = new FormData();
   formdata.append('file', action.payload.file);
-
+  
     //Do api call to get user info, include token as authentication.
     const response = yield call(fetch, url+ 'upload_profile_picture', {
       method:'POST',
