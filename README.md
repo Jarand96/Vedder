@@ -9,10 +9,6 @@ Publisher is an application that hopefully will enable people to create and publ
 * Go to /backend, create your virtualenv, install requirements and start the flask app.
 * Go to /frontend and run npm install and npm start.
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * Python Flask
