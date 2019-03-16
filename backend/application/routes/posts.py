@@ -1,41 +1,21 @@
+"""This is the docstring"""
+import datetime
 from flask import jsonify, request, g
 from ..utils.auth import requires_auth
 from ..utils.tools import fileUpload
+from ..utils.db_handler import insert_post_to_db, find_related_posts
 from .. import app
+
 
 @app.route('/post', methods=['GET'])
 @requires_auth
 def get_posts():
-    posts = [{
-        'text' : "I dag har vi kost oss i finværet..",
-        'created' : "2019-03-07 17:25:47",
-        'images' : [{'filename': "sefsefsef.png"}],
-        'comments' : [],
-        'public' : True,
-        'user_id' : 'jarand@jarand@.no'
-    }, {
-        'text' : "Arsenal kamp om bare minutter her nå",
-        'created' : "2019-03-07 17:25:47",
-        'images' : [{'filename': "arsenal.png"}],
-        'comments' : [],
-        'public' : True,
-        'user_id' : 'jarand@jarand@.no'
-    }, {
-        'text' : "Et lite barn kom til verden i natt.",
-        'created' : "2019-03-07 17:25:47",
-        'images' : [{'filename': "baby.jpeg"}],
-        'comments' : [],
-        'public' : True,
-        'user_id' : 'jarand@jarand@.no'
-    }, {
-        'text' : "Et lite barn kom til verden i natt.",
-        'created' : "2019-03-07 17:25:47",
-        'images' : [{'filename': "baby.jpeg"}],
-        'comments' : [],
-        'public' : True,
-        'user_id' : 'jarand@jarand@.no'
-    }]
-    return posts, 200
+    """Hei"""
+    email = g.current_user["email"]
+    posts = find_related_posts(email)
+    if posts:
+        return jsonify(posts), 200
+    return jsonify(error='Could not fetch any posts'), 404
 
 
 @app.route('/post', methods=['POST'])
@@ -46,25 +26,33 @@ def post_posts():
         email = g.current_user["email"]
         #print("The current user is: " + email)
         #print(request.files)
-        #print(request.form)
+        now = datetime.datetime.now()
         post = {
-            'images' : []
+            'user_id' : email,
+            'created' : now,
+            'text' : "",
+            'images' : [],
+            'comments' : []
         }
-        if request.files['file_0'] is False:
-            return jsonify(error=True), 502
-        for file in request.files:
-            print(request.files[file])
-            filepath, filename = fileUpload(request.files[file])
-            post['images'].append({
-                'filepath' : filepath,
-                'filename' : filename
-            })
+        if request.form['content_text']:
+            post['text'] = request.form['content_text']
 
-        print("A file has been submitted.")
-        file_from_req = request.files['file_0']
-        print(file_from_req)
-        print(request.form)
-        return jsonify(message='success'), 200
+        if request.files['file_0']:
+            for file in request.files:
+                print(request.files[file])
+                filepath, filename = fileUpload(request.files[file])
+                post['images'].append({
+                    'filepath' : filepath,
+                    'filename' : filename
+                })
+        post_id = insert_post_to_db(post)
+        if post_id:
+            #If the post is successful make sure to insert a post reference
+            #into users posts
+            posts = find_related_posts(email)
+            print(posts)
+            return jsonify(posts), 200
+        return jsonify(error='Something went horribly wrong.'), 400
 
     except ValueError as err:
         return jsonify(error="Request did not receive the expected value: " + err), 500

@@ -11,6 +11,6 @@ export const reducers = combineReducers({
   form: formReducer,
   auth: authReducer,
   user: userReducer,
-  post: postReducer,
+  posts: postReducer,
   // your reducer here
 });

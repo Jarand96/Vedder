@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 client = MongoClient("mongodb://localhost:27017/")
 mydb = client["publisher_db"]
 users = mydb["users"]
+posts = mydb["posts"]
 
 def get_user_with_email_and_password(email, password):
     """insert docstring"""
@@ -25,7 +26,7 @@ def user_already_in_db(email):
 
 #Return a user object. return false if insertion not possible
 def insert_user_to_db(incoming):
-    """inserts a newa user into mongodb"""
+    """inserts a new user into mongodb"""
     print("Entered db_handler. Hashing password.")
     hashed_password = generate_password_hash(incoming["password"], method='sha256')
     print("inserting user to db.")
@@ -42,6 +43,14 @@ def insert_user_to_db(incoming):
             "email": incoming['email'].lower(),
         }
         return user
+    return None
+
+
+def insert_post_to_db(post):
+    """inserts a new post into database"""
+    inserted_id = posts.insert_one(post)
+    if inserted_id:
+        return inserted_id
     return None
 
 
@@ -71,4 +80,14 @@ def update_user_profile_picture(email, filename):
         user["profile_pic"] = filename
         users.save(user)
         return user
+    return None
+
+def find_related_posts(email):
+    cursor = posts.find({})
+    all_posts = []
+    for post in cursor:
+        post['_id'] = str(post['_id'])
+        all_posts.append(post)
+    if all_posts:
+        return all_posts
     return None

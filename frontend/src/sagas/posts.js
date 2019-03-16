@@ -15,6 +15,7 @@ export function* getPosts(action){
       },
     });
     const data = yield call([response, response.json]);
+    console.log(data)
     yield put({ type: 'SET_POSTS', payload:data});
 }
 
@@ -22,10 +23,11 @@ export function* postPost(action){
     //Do api call to get user info, include token as authentication.
     const formdata = new FormData();
     formdata.append('content_text', action.payload.text_content)
-    action.payload.post_images.forEach(function(image, index){
-      formdata.append("file_" + index, image)
-    });
-
+    if (action.payload.post_images){
+      action.payload.post_images.forEach(function(image, index){
+        formdata.append("file_" + index, image)
+      });
+    }
     const response = yield call(fetch, url+'post', {
       method:'POST',
       headers: {
@@ -40,6 +42,6 @@ export function* postPost(action){
 }
 
 export function* watchPosts() {
-  yield takeLatest('GET_POSTS', getPosts);
+  yield takeLatest('GET_POST', getPosts);
   yield takeLatest('POST_POST', postPost);
 }

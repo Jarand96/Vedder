@@ -13,11 +13,21 @@ class Posts extends Component {
 
   componentDidMount() {
     let { dispatch } = this.props
+    dispatch({type: "GET_POST", payload: this.props.auth.token})
   }
 
   render(){
+    console.log(this.props)
+    if (this.props.posts.posts.length < 1) return (null)
   	return (
       <div className="post-container">
+         {this.props.posts.posts.map((post, index) => {
+           return (
+             <div key={index}>
+               {post["text"]}
+             </div>
+           )
+         })}
       </div>
     )
   }
@@ -26,7 +36,8 @@ class Posts extends Component {
 function mapStateToProps(state) {
   return {
       forms: state.form,
-      auth: state.auth
+      auth: state.auth,
+      posts: state.posts
     };
 }
 
