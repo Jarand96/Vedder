@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
 
-class Posts extends Component {
+class PostList extends Component {
 
   constructor(props) {
    super(props);
@@ -19,11 +19,16 @@ class Posts extends Component {
   render(){
     console.log(this.props)
     if (this.props.posts.posts.length < 1) return (null)
+    let url="http://127.0.0.1:5000/uploads/"
   	return (
       <div className="post-container">
          {this.props.posts.posts.map((post, index) => {
            return (
              <div key={index}>
+               {post["images"].map((image, index)=> {
+                 return(
+                 <img  width="200px" src={url + image.filename} />)
+               })}
                {post["text"]}
              </div>
            )
@@ -43,4 +48,4 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-)(Posts);
+)(PostList);

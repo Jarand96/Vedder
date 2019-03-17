@@ -1,7 +1,7 @@
 import React from "react";
 import Settings from "../containers/Settings"
 import NewPostContainer from "../containers/NewPostContainer"
-import Posts from "./Posts"
+import PostList from "./PostList"
 
 // Home page component
 export default class Home extends React.Component {
@@ -10,7 +10,7 @@ export default class Home extends React.Component {
     return (
       <div className="page-home">
         <NewPostContainer />
-        <Posts />
+        <PostList />
       </div>
     );
   }
