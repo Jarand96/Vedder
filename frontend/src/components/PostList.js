@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux';
+import { Post } from './Post'
 
 class PostList extends Component {
 
@@ -17,22 +18,15 @@ class PostList extends Component {
   }
 
   render(){
-    console.log(this.props)
     if (this.props.posts.posts.length < 1) return (null)
     let url="http://127.0.0.1:5000/uploads/"
   	return (
       <div className="post-container">
-         {this.props.posts.posts.map((post, index) => {
-           return (
-             <div key={index}>
-               {post["images"].map((image, index)=> {
-                 return(
-                 <img  width="200px" src={url + image.filename} />)
-               })}
-               {post["text"]}
-             </div>
-           )
-         })}
+        {this.props.posts.posts.map((post, index) => {
+          return(
+            <Post key={index} post={post}/>
+          )
+        })}
       </div>
     )
   }
