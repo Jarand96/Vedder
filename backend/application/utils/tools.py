@@ -1,6 +1,7 @@
 import os
 import uuid
 from werkzeug.utils import secure_filename
+from .db_handler import get_user_with_email
 from .. import app
 
 
@@ -25,6 +26,12 @@ def fileUpload(file):
     except:
         return None
 
+def enrich_posts(posts):
+    for post in posts:
+        user = get_user_with_email(post['user_id'])
+        user['_id'] = str(user['_id'])
+        post['creator'] = user
+    return posts
 
 def valid_register_input(data):
     return True

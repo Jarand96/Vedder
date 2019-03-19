@@ -24,7 +24,7 @@ class PostList extends Component {
       <div className="post-container">
         {this.props.posts.posts.map((post, index) => {
           return(
-            <Post key={index} post={post}/>
+            <Post key={index} post={post} url={url}/>
           )
         })}
       </div>

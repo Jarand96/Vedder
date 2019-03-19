@@ -2,7 +2,7 @@
 import datetime
 from flask import jsonify, request, g
 from ..utils.auth import requires_auth
-from ..utils.tools import fileUpload
+from ..utils.tools import fileUpload, enrich_posts
 from ..utils.db_handler import insert_post_to_db, find_related_posts
 from .. import app
 
@@ -13,8 +13,9 @@ def get_posts():
     """Hei"""
     email = g.current_user["email"]
     posts = find_related_posts(email)
+    enriched_posts = enrich_posts(posts)
     if posts:
-        return jsonify(posts), 200
+        return jsonify(enriched_posts), 200
     return jsonify(error='Could not fetch any posts'), 404
 
 
@@ -32,7 +33,8 @@ def post_posts():
             'created' : now,
             'text' : "",
             'images' : [],
-            'comments' : []
+            'comments' : [],
+            'likes':0
         }
         if request.form['content_text']:
             post['text'] = request.form['content_text']
