@@ -1,28 +1,29 @@
-import React from 'react';
+import React from "react";
 import { imageurl } from "../index"
+import ImageViewer from "./ImageViewer"
 
-export const Post = props => {
-  const  {post} = props;
-  return(
-  <div className="post">
-    <div className="postHeader">
-      <img className="post_profile_image" src={imageurl + post['creator']['profile_pic']} />
-      <div className="postHeader_text">
-        <p>{post['creator']['firstname']} {post['creator']['lastname']}</p>
-        <p>RANK 234</p>
+
+export default class Post extends React.Component {
+  constructor(props){
+    super(props);
+    let post = this.props.post
+  }
+  // render
+  render() {
+    return (
+      <div className="post">
+        <div className="postHeader">
+          <img className="post_profile_image" src={imageurl + this.props.post['creator']['profile_pic']} />
+          <div className="postHeader_text">
+            <p>{this.props.post['creator']['firstname']} {this.props.post['creator']['lastname']}</p>
+            <p>RANK 234</p>
+          </div>
+        </div>
+        {this.props.post['images'] &&
+          <ImageViewer images={this.props.post['images']} />
+        }
+        <p className="post_text">{this.props.post['text']}</p>
       </div>
-    </div>
-    {post["images"].map((image, index) => {
-      return(
-          <img key={index} className="post_image" src={imageurl + image["filename"]}/>
-      )
-    })}
-    <p className="post_text">{post['text']}</p>
-
-
-  </div>
-
-  );
-};
-
-export default Post
+    );
+  }
+}
