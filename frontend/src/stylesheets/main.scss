@@ -1,11 +1,17 @@
 
 .post{
-  background-color: #ecf0f1;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 5px;
-  display: block;
-  width: auto;
+  border-radius:    3px;
+  border:           1px solid #dbdfe0;
+  background-color: #fff;
+  margin:           10px;
+  display:  block;
+  width: 400px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+.post_header{
+  padding: 8px;
 }
 
 .post_profile_image{
@@ -19,10 +25,52 @@
 }
 
 .post_image{
-  width: 200px;
-  margin-top: 20px;
+  height: 500px;
+  width:  400px;
+  object-fit: cover;
+  text-align: center;
 }
 
 .post_text{
   margin-top: 10px;
+}
+
+#app{
+    background-color: #fafafa;
+}
+
+
+.navbar{
+    background-color: #fff;
+    background-image: none;
+}
+.image_container{
+   position: relative;
+}
+
+.arrow{
+  height: 30px;
+  width: 30px;
+  font-size: 10px;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #545454;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.nextArrow {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  z-index: 999;
+  color: #fff;
+}
+.backArrow {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  z-index: 998;
+  color: #fff;
 }

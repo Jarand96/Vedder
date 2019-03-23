@@ -12,7 +12,7 @@ export default class Post extends React.Component {
   render() {
     return (
       <div className="post">
-        <div className="postHeader">
+        <div className="post_header">
           <img className="post_profile_image" src={imageurl + this.props.post['creator']['profile_pic']} />
           <div className="postHeader_text">
             <p>{this.props.post['creator']['firstname']} {this.props.post['creator']['lastname']}</p>
@@ -24,6 +24,7 @@ export default class Post extends React.Component {
         }
         <p className="post_text">{this.props.post['text']}</p>
       </div>
+
     );
   }
 }
