@@ -3,7 +3,7 @@ import datetime
 from flask import jsonify, request, g
 from ..utils.auth import requires_auth
 from ..utils.tools import fileUpload, enrich_posts
-from ..utils.db_handler import insert_post_to_db, find_related_posts
+from ..utils.db_handler import insert_post_to_db, find_related_posts, like_post
 from .. import app
 
 
@@ -58,3 +58,18 @@ def post_posts():
 
     except ValueError as err:
         return jsonify(error="Request did not receive the expected value: " + err), 500
+
+@app.route('/likepost', methods=['POST'])
+@requires_auth
+def like_posts():
+    """sefsef"""
+    email = g.current_user["email"]
+    incoming = request.get_json()
+    print(incoming)
+    post = like_post(incoming['post_id'])
+    if post:
+        posts = find_related_posts(email)
+        enriched_posts = enrich_posts(posts)
+        if posts:
+            return jsonify(enriched_posts), 200
+    return jsonify(error='Could not fetch any posts'), 404

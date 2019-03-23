@@ -12,16 +12,28 @@
 }
 .post_header{
   padding: 8px;
+  display: flex;
 }
+.post_user_name{
+  font-weight: 700;
+  margin-bottom: 0;
 
+}
+.post_details{
+  color: #717171;
+}
 .post_profile_image{
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  object-fit: cover;
 }
 .postHeader_text{
-  margin-left: 10px;
-  display: inline-block;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-self: center;
 }
 
 .post_image{
@@ -30,10 +42,13 @@
   object-fit: cover;
   text-align: center;
 }
-
 .post_text{
+  display: inline-block;
   margin-top: 10px;
+  margin-left: 10px;
+  width: 80%;
 }
+
 
 #app{
     background-color: #fafafa;
@@ -59,6 +74,13 @@
   background: #545454;
   border-radius: 50%;
   cursor: pointer;
+  transition: opacity 0.6s ease;
+}
+
+.arrow:hover{
+  background: #545470;
+  opacity: 0.8;
+
 }
 .nextArrow {
   position: absolute;
@@ -73,4 +95,46 @@
   left: 15px;
   z-index: 998;
   color: #fff;
+}
+.dot_container{
+  margin-top: 5px;
+  text-align: center;
+}
+.dot{
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.activedot{
+  background-color: #717171;
+}
+
+.post_hr{
+  margin-bottom: 0px;
+}
+.post_footer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.post_footer button{
+background-color: white;
+border-radius: 2px;
+border: none;
+font-weight: 400;
+color: #717171;
+padding: 8px 32px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 14px;
+margin: 4px;
+}
+.post_footer button:hover{
+  background-color: #f2f2f2;
 }

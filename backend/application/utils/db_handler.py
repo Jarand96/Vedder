@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
+from bson import ObjectId
 
 client = MongoClient("mongodb://localhost:27017/")
 mydb = client["publisher_db"]
@@ -53,10 +54,18 @@ def insert_post_to_db(post):
         return inserted_id
     return None
 
+def like_post(post_id):
+    """inserts a new post into database"""
+    post = posts.find_one({"_id": ObjectId(post_id)})
+    print(post)
+    post['likes'] += 1
+    posts.save(post)
+    if post:
+        return post
+    return None
 
 def get_user_with_email(email):
     """zef"""
-    print("in dbhandler, connecting do db.")
     user = users.find_one({"email": email.lower()})
     if user:
         return user

@@ -1,5 +1,9 @@
 import React from "react";
 import { imageurl } from "../index"
+import ImageIndexDots from "./ImageIndexDots"
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 //Ta inn en liste med bilder.
 
@@ -54,6 +58,11 @@ export default class imageViewer extends React.Component {
         <div className="nextArrow arrow" onClick={this.goToNextSlide}>
           <i className="fa fa-arrow-right fa-2x" aria-hidden="true"></i>
         </div>
+      }
+      {this.state.images.length>1 &&
+        <ImageIndexDots
+        currentIndex={this.state.currentIndex}
+        numberOfImages={this.state.images.length} />
       }
       </div>
     );
