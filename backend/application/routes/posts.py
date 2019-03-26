@@ -52,8 +52,9 @@ def post_posts():
             #If the post is successful make sure to insert a post reference
             #into users posts
             posts = find_related_posts(email)
+            enriched_posts = enrich_posts(posts)
             print(posts)
-            return jsonify(posts), 200
+            return jsonify(enriched_posts), 200
         return jsonify(error='Something went horribly wrong.'), 400
 
     except ValueError as err:
