@@ -9,11 +9,9 @@ posts = mydb["posts"]
 
 def get_user_with_email_and_password(email, password):
     """insert docstring"""
-    print("in dbhandler, connecting do db.")
     user = users.find_one({"email": email.lower()})
     print(user)
     if user and check_password_hash(user['password'], password):
-        print("User found! Returning...")
         return user
     return None
 
@@ -28,9 +26,7 @@ def user_already_in_db(email):
 #Return a user object. return false if insertion not possible
 def insert_user_to_db(incoming):
     """inserts a new user into mongodb"""
-    print("Entered db_handler. Hashing password.")
     hashed_password = generate_password_hash(incoming["password"], method='sha256')
-    print("inserting user to db.")
     inserted_id = users.insert_one({
         'email': incoming['email'].lower(),
         'password' : hashed_password,
@@ -54,11 +50,14 @@ def insert_post_to_db(post):
         return inserted_id
     return None
 
-def like_post(post_id):
+def like_post(post_id, email):
     """inserts a new post into database"""
     post = posts.find_one({"_id": ObjectId(post_id)})
-    print(post)
-    post['likes'] += 1
+    if email in post['liked_by']:
+        post['liked_by'].remove(email)
+        posts.save(post)
+        return post
+    post['liked_by'].append(email)
     posts.save(post)
     if post:
         return post
@@ -92,6 +91,7 @@ def update_user_profile_picture(email, filename):
     return None
 
 def find_related_posts(email):
+    """This function should return posts that are related to the user passed in"""
     cursor = posts.find({})
     all_posts = []
     for post in cursor:

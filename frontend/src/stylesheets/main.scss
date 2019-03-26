@@ -121,7 +121,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-
+.like_counter{
+  margin-left: 10px;
+  margin-top: 10px;
+  
+}
 .post_footer button{
 background-color: white;
 border-radius: 2px;

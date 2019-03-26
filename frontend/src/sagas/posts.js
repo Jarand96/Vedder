@@ -15,8 +15,8 @@ export function* getPosts(action){
       },
     });
     const data = yield call([response, response.json]);
-    console.log(data)
     yield put({ type: 'SET_POSTS', payload:data});
+
 }
 
 export function* postPost(action){
@@ -38,7 +38,7 @@ export function* postPost(action){
       body: formdata
     });
     const data = yield call([response, response.json]);
-    yield put({ type: 'GET_USERINFO', payload:data});
+    yield put({ type: 'SET_POSTS', payload:data});
 }
 
 export function* likePost(action){
@@ -53,7 +53,7 @@ export function* likePost(action){
       body: JSON.stringify({'post_id': action.payload.post_id})
     });
     const data = yield call([response, response.json]);
-    yield put({ type: 'GET_USERINFO', payload:data});
+    yield put({ type: 'SET_POSTS', payload:data});
 }
 
 export function* watchPosts() {

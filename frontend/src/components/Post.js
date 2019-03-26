@@ -27,6 +27,17 @@ class Post extends Component {
   }
   // render
   render() {
+    let likeCounter = <p></p>
+    let last_like = this.props.post['liked_by'].length-1
+    if(this.props.post['liked_by'].length>1){
+      likeCounter = <p className="like_counter">
+        {this.props.post.liked_by[last_like]} and {" "}
+        {last_like } other likes this post</p>
+    }
+    else if(this.props.post['liked_by'].length==1){
+      likeCounter = <p className="like_counter">
+        {this.props.post.liked_by[0]} likes this post</p>
+    }
     return (
       <div className="post">
         <div className="post_header">
@@ -39,10 +50,9 @@ class Post extends Component {
         {this.props.post['images'] &&
           <ImageViewer images={this.props.post['images']} />
         }
-        {this.props.post['likes'] &&
-          <p className="like_counter">{this.props.post['likes']} LIKES</p>
+        {
+          likeCounter
         }
-
         {this.props.post['text'] &&
             <p className="post_text">{' ' + this.props.post['text']}</p>
         }

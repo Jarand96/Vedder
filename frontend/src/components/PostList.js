@@ -18,7 +18,7 @@ class PostList extends Component {
   }
 
   render(){
-    if (this.props.posts.posts.length < 1) return (null)
+    if (this.props.posts.posts.error) return (null)
     let url="http://127.0.0.1:5000/uploads/"
   	return (
       <div className="post-container">

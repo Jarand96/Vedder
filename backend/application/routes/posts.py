@@ -13,8 +13,8 @@ def get_posts():
     """Hei"""
     email = g.current_user["email"]
     posts = find_related_posts(email)
-    enriched_posts = enrich_posts(posts)
     if posts:
+        enriched_posts = enrich_posts(posts)
         return jsonify(enriched_posts), 200
     return jsonify(error='Could not fetch any posts'), 404
 
@@ -34,7 +34,7 @@ def post_posts():
             'text' : "",
             'images' : [],
             'comments' : [],
-            'likes':0
+            'liked_by': []
         }
         if request.form['content_text']:
             post['text'] = request.form['content_text']
@@ -66,7 +66,7 @@ def like_posts():
     email = g.current_user["email"]
     incoming = request.get_json()
     print(incoming)
-    post = like_post(incoming['post_id'])
+    post = like_post(incoming['post_id'], email)
     if post:
         posts = find_related_posts(email)
         enriched_posts = enrich_posts(posts)
