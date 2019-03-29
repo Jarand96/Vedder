@@ -32,7 +32,9 @@ def insert_user_to_db(incoming):
         'password' : hashed_password,
         'firstname' : incoming['firstname'],
         'lastname' : incoming['lastname'],
-        'profile_pic' : 'default.png'
+        'profile_pic' : 'default.png',
+        'followers' : [],
+        'following' : []
     })
     if inserted_id:
         user = {

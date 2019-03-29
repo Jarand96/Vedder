@@ -44,25 +44,15 @@ def is_token_valid():
 def create_user():
     """Fill in docstring"""
     try:
-        print("getting request data.")
         incoming = request.get_json()
-        print(incoming)
         #Sanitizes input before db-lookup - avoid db injections.
-        print("Got request data. checking if email is valid..")
         if email_is_valid(incoming["email"]) is False:
             return jsonify(error=True), 404
-
-        print("Valid email. Checkig if user is already in db.")
         if user_already_in_db(incoming['email']):
             return jsonify(message="email already exists"), 400
-        print("User not in db. Checking if input is valid")
-
         if valid_register_input(incoming) is False:
             return jsonify(message="Input not valid"), 400
-
-        print("input is valid. inserting user to db.")
         user = insert_user_to_db(incoming)
-        print("This user was inserted to db.", user)
         if user:
             return jsonify(generate_token(user)), 201
         else:
