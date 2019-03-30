@@ -24,6 +24,20 @@ def get_user():
     except:
         return jsonify(error=True), 404
 
+@app.route("/user/<_id>", methods=['GET'])
+@requires_auth
+def get_profile_info(_id):
+    """sefsef"""
+    try:
+        return jsonify({
+        'firstname': 'Jarand',
+        'lastname' : 'Jansen'
+        })
+    except:
+        print("Something failed.")
+
+
+
 @app.route("/user", methods=['POST'])
 @requires_auth
 def post_user():

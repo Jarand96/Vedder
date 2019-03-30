@@ -14,28 +14,34 @@ class ProfilePage extends Component {
   constructor(props){
     super(props);
     const {dispatch} = props;
-    console.log(this.props)
     const id = this.props.params.id
-    console.log(id)
     this.state = {
       user_id: id
     }
   }
   componentDidMount(){
     let { dispatch } = this.props
+    dispatch({
+      type:'GET_USER_PROFILE',
+      payload:{
+        'Authorization' : this.props.auth.token,
+        'user_id': this.state.user_id
+      }
+    })
 
   }
   // render
   render() {
     console.log(this.props)
     return(
-      <p>Hei {this.state.user_id}</p>
+      <p>Hei {this.props.profile.firstname}</p>
     )
   }
 }
 function mapStateToProps(state) {
   return {
       auth: state.auth,
+      profile: state.user.profileInFocus
     };
 }
 

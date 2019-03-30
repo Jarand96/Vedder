@@ -4,6 +4,7 @@ let initialState = {
  firstname: '',
  lastname: '',
  gender: '',
+ profileInFocus: {}
 };
 
 function userReducer(state = initialState, action) {
@@ -20,6 +21,12 @@ function userReducer(state = initialState, action) {
          return { ...state,
             profile_pic_url: action.payload.filepath,
             profile_pic_name: action.payload.filename
+          };
+          break;
+        case 'SET_FOCUSED_PROFILE':
+          return {
+            ...state,
+            profileInFocus: action.payload
           };
           break;
     }
