@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {store} from "react";
+import { Link } from "react-router";
 import { imageurl } from "../index"
 import ImageViewer from "./ImageViewer"
 import { connect } from 'react-redux';
@@ -27,34 +28,38 @@ class Post extends Component {
   }
   // render
   render() {
+    let post = this.props.post
     let likeCounter = <p></p>
-    let last_like = this.props.post['liked_by'].length-1
-    if(this.props.post['liked_by'].length>1){
+    let last_like = post['liked_by'].length-1
+    if(post['liked_by'].length>1){
       likeCounter = <p className="like_counter">
-        {this.props.post.liked_by[last_like]} and {" "}
+        {post.liked_by[last_like]} and {" "}
         {last_like } other likes this post</p>
     }
-    else if(this.props.post['liked_by'].length==1){
+    else if(post['liked_by'].length==1){
       likeCounter = <p className="like_counter">
-        {this.props.post.liked_by[0]} likes this post</p>
+        {post.liked_by[0]} likes this post</p>
     }
     return (
       <div className="post">
         <div className="post_header">
-          <img className="post_profile_image" src={imageurl + this.props.post['creator']['profile_pic']} />
+          <img className="post_profile_image" src={imageurl + post['creator']['profile_pic']} />
           <div className="postHeader_text">
-            <p className="post_user_name">{this.props.post['creator']['firstname']} {this.props.post['creator']['lastname']}</p>
+            <p className="post_user_name">
+              <Link to={`/profile/${post['creator']['_id']}`}>
+                {post['creator']['firstname']}
+                {post['creator']['lastname']}</Link></p>
             <p className="post_details">RANK 234</p>
           </div>
         </div>
-        {this.props.post['images'] &&
-          <ImageViewer images={this.props.post['images']} />
+        {post['images'] &&
+          <ImageViewer images={post['images']} />
         }
         {
           likeCounter
         }
-        {this.props.post['text'] &&
-            <p className="post_text">{' ' + this.props.post['text']}</p>
+        {post['text'] &&
+            <p className="post_text">{' ' + post['text']}</p>
         }
         <hr className="post_hr"></hr>
         <div className="post_footer">

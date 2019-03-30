@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Register from "./containers/Register";
 import Login from "./containers/Login";
 import Settings from "./containers/Settings";
+import ProfilePage from "./components/ProfilePage";
 import NotFound from "./components/NotFound";
 
 import { requireAuthentication } from './components/AuthenticatedComponent';
@@ -16,9 +17,10 @@ const router = (
   <Router onUpdate={() => window.scrollTo(0, 0)} history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={requireAuthentication(Home)}/>
-      <Route path="settings" component={requireAuthentication(Settings)} />
       <Route path="register" component={requireNoAuthentication(Register)} />
       <Route path="login" component={requireNoAuthentication(Login)} />
+      <Route path="settings" component={requireAuthentication(Settings)} />
+      <Route path="profile/:id" component={requireAuthentication(ProfilePage)} />
       <Route path="*" component={NotFound}/>
     </Route>
   </Router>

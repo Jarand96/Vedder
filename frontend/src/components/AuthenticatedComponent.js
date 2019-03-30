@@ -25,6 +25,7 @@ export function requireAuthentication(Component) {
             this.state = {
                 loaded_if_needed: false,
             };
+
         }
 
         componentWillReceiveProps(nextProps) {
