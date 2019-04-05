@@ -45,7 +45,7 @@ export default class imageViewer extends React.Component {
   }
   // render
   render() {
-    let image = imageurl +this.state.images[this.state.currentIndex]["filename"]
+    let image = imageurl +this.props.images[this.state.currentIndex]["filename"]
     return (
       <div className="image_container">
         <img className="post_image" src={image}/>

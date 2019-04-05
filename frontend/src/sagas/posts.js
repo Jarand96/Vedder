@@ -16,7 +16,6 @@ export function* getPosts(action){
     });
     const data = yield call([response, response.json]);
     yield put({ type: 'SET_POSTS', payload:data});
-
 }
 
 export function* postPost(action){

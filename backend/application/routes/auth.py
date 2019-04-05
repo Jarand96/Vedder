@@ -12,7 +12,6 @@ def login():
     """Fill in docstring"""
     try:
         incoming = request.get_json()
-        print(incoming)
         if email_is_valid(incoming["email"]) is False:
             return jsonify(error=True), 400
         user = get_user_with_email_and_password(

@@ -2,8 +2,10 @@
 
 from flask import jsonify, request, g
 from ..utils.auth import requires_auth
-from ..utils.db_handler import get_user_with_email, update_user, update_user_profile_picture, insert_user_to_db
-from ..utils.tools import fileUpload
+from ..utils.db_handler import get_user_with_email, insert_user_to_db
+from ..utils.db_handler import update_user, get_user_with_id, get_posts_from_user
+from ..utils.db_handler import update_user_profile_picture
+from ..utils.tools import fileUpload, enrich_posts
 from .. import app
 
 @app.route("/user", methods=['GET'])
@@ -29,13 +31,17 @@ def get_user():
 def get_profile_info(_id):
     """sefsef"""
     try:
-        return jsonify({
-        'firstname': 'Jarand',
-        'lastname' : 'Jansen'
-        })
+        user = get_user_with_id(_id)
+        print("God user")
+        users_posts = get_posts_from_user(_id)
+        print("Got the posts")
+        users_posts_new = enrich_posts(users_posts)
+        user['posts'] = users_posts_new
+        if user:
+            return jsonify(user), 200
+        return jsonify(error="User not found"), 404
     except:
-        print("Something failed.")
-
+        return jsonify(error=True), 404
 
 
 @app.route("/user", methods=['POST'])

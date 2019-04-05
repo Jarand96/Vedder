@@ -29,6 +29,12 @@ function userReducer(state = initialState, action) {
             profileInFocus: action.payload
           };
           break;
+        case 'CLEAR_FOCUSED_PROFILE':
+          return {
+            ...state,
+            profileInFocus: {}
+          };
+          break;
     }
     return state;
   }

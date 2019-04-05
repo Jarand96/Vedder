@@ -32,6 +32,10 @@ export function* getUserProfile(action){
     yield put({ type: 'SET_FOCUSED_PROFILE', payload:data});
 }
 
+export function* clearUserProfile(action){
+    yield put({ type: 'CLEAR_FOCUSED_PROFILE'});
+}
+
 export function* updateUser(action){
     //Do api call to get user info, include token as authentication.
     const response = yield call(fetch, url+'user', {
@@ -71,6 +75,7 @@ export function* updateUserProfilePicture(action){
 export function* watchUser() {
   yield takeLatest('GET_USER', getUser);
   yield takeLatest('GET_USER_PROFILE', getUserProfile);
+  yield takeLatest('CLEAR_USER_PROFILE', clearUserProfile);
   yield takeLatest('UPDATE_USER', updateUser);
   yield takeLatest('UPDATE_USER_PROFILE_PIC', updateUserProfilePicture);
 

@@ -72,6 +72,15 @@ def get_user_with_email(email):
         return user
     return None
 
+def get_user_with_id(_id):
+    """Returs a user from db with given id."""
+    user = users.find_one({"_id": ObjectId(_id)})
+    user['_id'] = str(user['_id'])
+    if user:
+        return user
+    return None
+
+
 #Returns the updated user json-object.
 def update_user(email, incoming):
     """sef"""
@@ -95,6 +104,17 @@ def update_user_profile_picture(email, filename):
 def find_related_posts(email):
     """This function should return posts that are related to the user passed in"""
     cursor = posts.find({})
+    all_posts = []
+    for post in cursor:
+        print(post)
+        post['_id'] = str(post['_id'])
+        all_posts.append(post)
+    if all_posts:
+        return all_posts
+    return None
+
+def get_posts_from_user(_id):
+    cursor = posts.find({'user_id': _id})
     all_posts = []
     for post in cursor:
         post['_id'] = str(post['_id'])

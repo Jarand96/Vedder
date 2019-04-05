@@ -27,7 +27,7 @@ def verify_token(token):
             return None
         user = get_user_with_email(data["email"])
         if user:
-            return data
+            return user
     except (BadSignature, SignatureExpired):
         return None
 

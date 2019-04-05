@@ -24,12 +24,14 @@ def get_posts():
 def post_posts():
     """sefsef"""
     try:
-        email = g.current_user["email"]
+        _id = str(g.current_user["_id"])
+        email = str(g.current_user["email"])
         #print("The current user is: " + email)
         #print(request.files)
         now = datetime.datetime.now()
         post = {
-            'user_id' : email,
+            'user_id' : _id,
+            'user_email':email,
             'created' : now,
             'text' : "",
             'images' : [],
@@ -53,7 +55,6 @@ def post_posts():
             #into users posts
             posts = find_related_posts(email)
             enriched_posts = enrich_posts(posts)
-            print(posts)
             return jsonify(enriched_posts), 200
         return jsonify(error='Something went horribly wrong.'), 400
 

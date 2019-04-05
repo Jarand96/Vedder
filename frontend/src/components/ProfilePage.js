@@ -3,6 +3,7 @@ import {store} from "react";
 import { Link } from "react-router";
 import { imageurl } from "../index"
 import ImageViewer from "./ImageViewer"
+import PostList from "./PostList"
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,9 +19,6 @@ class ProfilePage extends Component {
     this.state = {
       user_id: id
     }
-  }
-  componentDidMount(){
-    let { dispatch } = this.props
     dispatch({
       type:'GET_USER_PROFILE',
       payload:{
@@ -28,13 +26,17 @@ class ProfilePage extends Component {
         'user_id': this.state.user_id
       }
     })
-
+  }
+  componentDidMount(){
+    let { dispatch } = this.props
   }
   // render
   render() {
-    console.log(this.props)
     return(
+      <div className="container">
       <p>Hei {this.props.profile.firstname}</p>
+      <PostList profileInFocus = {this.props.profile}/>
+      </div>
     )
   }
 }
