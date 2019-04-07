@@ -41,13 +41,15 @@ class ProfilePage extends Component {
         <div className="profile-info-container">
           <img className="profile_pic"  src={imageurl + profile.profile_pic} />
           <div className="profile_desc">
-            <p className="display_name">{profile.firstname + " " + profile.lastname}</p>
-            <p className="posts_counter">{profile.posts.length} Posts</p>
-            <p className="follower_counter">{profile.followers.length} Followers</p>
-            <p className="following_counter">{profile.following.length} Following</p>
+            <h4 className="display_name">{profile.firstname + " " + profile.lastname}</h4>
+            <div className="profile_statistics">
+              <p className="counter posts_counter">{profile.posts.length} Posts</p>
+              <p className="counter follower_counter">{profile.followers.length} Followers</p>
+              <p className="counter following_counter">{profile.following.length} Following</p>
+            </div>
           </div>
         </div>
-      <h3>Posts</h3>
+      <h3 className="profile-posts-header">Posts</h3>
       <PostList profileInFocus = {this.props.profile}/>
       </div>
     )

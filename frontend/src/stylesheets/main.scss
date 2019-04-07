@@ -48,13 +48,9 @@
   margin-left: 10px;
   width: 80%;
 }
-
-
 #app{
     background-color: #fafafa;
 }
-
-
 .navbar{
     background-color: #fff;
     background-image: none;
@@ -62,7 +58,6 @@
 .image_container{
    position: relative;
 }
-
 .arrow{
   height: 30px;
   width: 30px;
@@ -76,11 +71,9 @@
   cursor: pointer;
   transition: opacity 0.6s ease;
 }
-
 .arrow:hover{
   background: #545470;
   opacity: 0.8;
-
 }
 .nextArrow {
   position: absolute;
@@ -109,11 +102,9 @@
   display: inline-block;
   transition: background-color 0.6s ease;
 }
-
 .activedot{
   background-color: #717171;
 }
-
 .post_hr{
   margin-bottom: 0px;
 }
@@ -124,7 +115,6 @@
 .like_counter{
   margin-left: 10px;
   margin-top: 10px;
-  
 }
 .post_footer button{
 background-color: white;
@@ -141,4 +131,31 @@ margin: 4px;
 }
 .post_footer button:hover{
   background-color: #f2f2f2;
+}
+.profile-info-container{
+  padding-left:20%;
+  padding-right: 20%;
+  display: flex;
+}
+.profile-info-container img{
+  height: 250px;
+  width:  200px;
+  object-fit: cover;
+  text-align: center;
+}
+.profile_desc{
+  padding-left: 30px;
+}
+.profile_statistics{
+  display: inline-block;
+}
+.counter{
+  display: inline-block;
+  margin-right: 20px;
+}
+.profile-posts-header{
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
