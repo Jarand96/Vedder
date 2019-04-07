@@ -4,7 +4,6 @@ let initialState = {
  firstname: '',
  lastname: '',
  gender: '',
- profileInFocus: {}
 };
 
 function userReducer(state = initialState, action) {

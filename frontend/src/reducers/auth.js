@@ -19,6 +19,7 @@ function authReducer(state = initialState, action) {
            isAuthenticating:false,
            token : action.payload,
            email: jwtDecode(action.payload).email,
+           id: jwtDecode(action.payload).id,
            statusText: 'You have been successfully logged in.'
          };
          break;

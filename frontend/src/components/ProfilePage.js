@@ -29,12 +29,25 @@ class ProfilePage extends Component {
   }
   componentDidMount(){
     let { dispatch } = this.props
+
   }
   // render
   render() {
+    let profile = this.props.profile
+    if(!profile) return null;
+    console.log(profile)
     return(
       <div className="container">
-      <p>Hei {this.props.profile.firstname}</p>
+        <div className="profile-info-container">
+          <img className="profile_pic"  src={imageurl + profile.profile_pic} />
+          <div className="profile_desc">
+            <p className="display_name">{profile.firstname + " " + profile.lastname}</p>
+            <p className="posts_counter">{profile.posts.length} Posts</p>
+            <p className="follower_counter">{profile.followers.length} Followers</p>
+            <p className="following_counter">{profile.following.length} Following</p>
+          </div>
+        </div>
+      <h3>Posts</h3>
       <PostList profileInFocus = {this.props.profile}/>
       </div>
     )
