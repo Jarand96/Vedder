@@ -11,9 +11,13 @@ function userReducer(state = initialState, action) {
     switch (action.type) {
       case 'GET_USERINFO':
         return { ...state,
+           email : action.payload.email,
+           followers: action.payload.followers,
+           following: action.payload.following,
+           posts: action.payload.posts,
            firstname: action.payload.firstname,
            lastname: action.payload.lastname,
-           profile_pic_name: action.payload.filename
+           profile_pic: action.payload.profile_pic
          };
          break;
        case 'SET_PROFILE_PIC':

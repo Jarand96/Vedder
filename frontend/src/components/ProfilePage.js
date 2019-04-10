@@ -16,9 +16,12 @@ class ProfilePage extends Component {
     super(props);
     const {dispatch} = props;
     const id = this.props.params.id
+    let myProfile = (this.props.auth.id == id) ? true : false
     this.state = {
-      user_id: id
+      user_id: id,
+      isOwnProfile: myProfile
     }
+    if (!myProfile){
     dispatch({
       type:'GET_USER_PROFILE',
       payload:{
@@ -26,6 +29,7 @@ class ProfilePage extends Component {
         'user_id': this.state.user_id
       }
     })
+    }
   }
   componentDidMount(){
     let { dispatch } = this.props
@@ -33,9 +37,15 @@ class ProfilePage extends Component {
   }
   // render
   render() {
-    let profile = this.props.profile
-    if(!profile) return null;
+
+    let profile = (this.state.isOwnProfile) ? this.props.ownProfile :
+    this.props.profile
+
+    //let isFollowing = profile.following.includes()
+    // if this is not my profile and im not following the person already: show follow button.
+    //if this is not my profile but im following this person show checkmark button or something
     console.log(profile)
+    if(!profile) return null;
     return(
       <div className="container">
         <div className="profile-info-container">
@@ -58,7 +68,8 @@ class ProfilePage extends Component {
 function mapStateToProps(state) {
   return {
       auth: state.auth,
-      profile: state.user.profileInFocus
+      profile: state.user.profileInFocus,
+      ownProfile: state.user
     };
 }
 

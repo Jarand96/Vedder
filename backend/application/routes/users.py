@@ -13,15 +13,15 @@ from .. import app
 def get_user():
     """sefsef"""
     try:
-        email = g.current_user["email"]
-        #What if user cannot be found.
-        user = get_user_with_email(email)
+        _id = g.current_user["_id"]
+        user = get_user_with_id(_id)
+        print(user)
+        users_posts = get_posts_from_user(_id)
+        print(users_posts)
+        users_posts_new = enrich_posts(users_posts)
+        user['posts'] = users_posts_new
         if user:
-            return jsonify({
-                'firstname' : user['firstname'],
-                'lastname' : user['lastname'],
-                'filename' : user['profile_pic']
-                }), 200
+            return jsonify(user), 200
         return jsonify(error=True), 404
     except:
         return jsonify(error=True), 404
@@ -32,9 +32,7 @@ def get_profile_info(_id):
     """sefsef"""
     try:
         user = get_user_with_id(_id)
-        print("God user")
         users_posts = get_posts_from_user(_id)
-        print("Got the posts")
         users_posts_new = enrich_posts(users_posts)
         user['posts'] = users_posts_new
         if user:

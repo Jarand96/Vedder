@@ -42,8 +42,8 @@ class Settings extends Component {
     console.log(this.props)
   	return (
       <div>
-        {this.props.user.profile_pic_name &&
-          <img width="200px" src={url + this.props.user.profile_pic_name} />
+        {this.props.user.profile_pic &&
+          <img width="200px" src={url + this.props.user.profile_pic} />
         }
         <SettingsForm onSubmit={this.submit} />
         <FileUploadForm onSubmit={this.filesubmit} />

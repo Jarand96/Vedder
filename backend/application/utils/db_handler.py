@@ -44,7 +44,6 @@ def insert_user_to_db(incoming):
         return user
     return None
 
-
 def insert_post_to_db(post):
     """inserts a new post into database"""
     inserted_id = posts.insert_one(post)
@@ -106,7 +105,6 @@ def find_related_posts(email):
     cursor = posts.find({})
     all_posts = []
     for post in cursor:
-        print(post)
         post['_id'] = str(post['_id'])
         all_posts.append(post)
     if all_posts:
@@ -114,9 +112,11 @@ def find_related_posts(email):
     return None
 
 def get_posts_from_user(_id):
-    cursor = posts.find({'user_id': _id})
+    """sefsef"""
+    cursor = posts.find({"user_id": str(_id)})
     all_posts = []
     for post in cursor:
+        print("Hei")
         post['_id'] = str(post['_id'])
         all_posts.append(post)
     if all_posts:
