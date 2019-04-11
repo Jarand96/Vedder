@@ -23,6 +23,7 @@ isEmpty(obj) {
 
   componentDidMount() {
     let { dispatch } = this.props
+    dispatch({type: "GET_USER", payload: this.props.auth.token});
     const profileInFocus = this.props.profileInFocus
     if(!profileInFocus){
     dispatch({type: "GET_POST", payload: this.props.auth.token})
@@ -35,8 +36,7 @@ isEmpty(obj) {
       profileInFocus ?
       profileInFocus.posts : this.props.posts.posts
     )
-    
-    if (!posts) return (null)
+    if (posts.error) return (null)
     let url="http://127.0.0.1:5000/uploads/"
   	return (
       <div className="post-container">

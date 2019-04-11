@@ -16,7 +16,7 @@ class ProfilePage extends Component {
     super(props);
     const {dispatch} = props;
     const id = this.props.params.id
-    let myProfile = (this.props.auth.id == id) ? true : false
+    let myProfile = (this.props.auth.id === id) ? true : false
     this.state = {
       user_id: id,
       isOwnProfile: myProfile
@@ -33,25 +33,27 @@ class ProfilePage extends Component {
   }
   componentDidMount(){
     let { dispatch } = this.props
-
   }
   // render
   render() {
-
     let profile = (this.state.isOwnProfile) ? this.props.ownProfile :
-    this.props.profile
-
+    this.props.profileInFocus
+    if(!profile) return null;
+    if(!this.props.ownProfile) return null;
+    let isFollowing = this.props.ownProfile.following.includes(profile.id)
     //let isFollowing = profile.following.includes()
     // if this is not my profile and im not following the person already: show follow button.
     //if this is not my profile but im following this person show checkmark button or something
-    console.log(profile)
-    if(!profile) return null;
+
+
     return(
       <div className="container">
         <div className="profile-info-container">
           <img className="profile_pic"  src={imageurl + profile.profile_pic} />
           <div className="profile_desc">
             <h4 className="display_name">{profile.firstname + " " + profile.lastname}</h4>
+            {!this.state.isOwnProfile&&!isFollowing &&
+              <button className="active">Follow</button>}
             <div className="profile_statistics">
               <p className="counter posts_counter">{profile.posts.length} Posts</p>
               <p className="counter follower_counter">{profile.followers.length} Followers</p>
@@ -60,7 +62,7 @@ class ProfilePage extends Component {
           </div>
         </div>
       <h3 className="profile-posts-header">Posts</h3>
-      <PostList profileInFocus = {this.props.profile}/>
+      <PostList profileInFocus = {profile}/>
       </div>
     )
   }
@@ -68,7 +70,7 @@ class ProfilePage extends Component {
 function mapStateToProps(state) {
   return {
       auth: state.auth,
-      profile: state.user.profileInFocus,
+      profileInFocus: state.user.profileInFocus,
       ownProfile: state.user
     };
 }
