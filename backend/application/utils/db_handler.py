@@ -122,3 +122,16 @@ def get_posts_from_user(_id):
     if all_posts:
         return all_posts
     return None
+
+def update_following_list(my_id, target_user_id):
+    """sfsfsfsfs"""
+    # Add the target user to this users following list
+    user = get_user_with_id(my_id)
+    user['following'].append(target_user_id)
+    users.save(user)
+    # Add the current user to the target user followers list
+    target_user = get_user_with_id(target_user_id)
+    target_user['followers'].append(my_id)
+    users.save(target_user)
+
+    return user['following']

@@ -38,6 +38,12 @@ function userReducer(state = initialState, action) {
             profileInFocus: {}
           };
           break;
+        case 'SET_FOLLOWING_LIST':
+          return {
+            ...state,
+            following: action.payload
+          };
+          break;
     }
     return state;
   }

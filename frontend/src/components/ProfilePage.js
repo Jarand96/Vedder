@@ -22,21 +22,32 @@ class ProfilePage extends Component {
       isOwnProfile: myProfile
     }
     if (!myProfile){
-    dispatch({
-      type:'GET_USER_PROFILE',
-      payload:{
-        'Authorization' : this.props.auth.token,
-        'user_id': this.state.user_id
-      }
-    })
+      dispatch({
+        type:'GET_USER_PROFILE',
+        payload:{
+          'Authorization' : this.props.auth.token,
+          'user_id': this.state.user_id
+        }
+      })
     }
+      this.followUser = this.followUser.bind(this)
   }
+
   componentDidMount(){
     let { dispatch } = this.props
   }
   getUser(){
     let { dispatch } = this.props
     dispatch({type: "GET_USER", payload: this.props.auth.token});
+  }
+
+  followUser(){
+    let { dispatch } = this.props
+    dispatch({type: "FOLLOW_USER", payload: {
+      'Authorization': this.props.auth.token,
+      'user_id': this.state.user_id
+    }});
+
   }
   // render
   render() {
@@ -51,7 +62,7 @@ class ProfilePage extends Component {
     //let isFollowing = profile.following.includes()
     // if this is not my profile and im not following the person already: show follow button.
     //if this is not my profile but im following this person show checkmark button or something
-
+    console.log(this.props)
 
     return(
       <div className="container">
@@ -60,7 +71,7 @@ class ProfilePage extends Component {
           <div className="profile_desc">
             <h4 className="display_name">{profile.firstname + " " + profile.lastname}</h4>
             {!this.state.isOwnProfile&&!isFollowing &&
-              <button className="active">Follow</button>}
+              <button onClick={this.followUser} className="active">Follow</button>}
             <div className="profile_statistics">
               <p className="counter posts_counter">{profile.posts.length} Posts</p>
               <p className="counter follower_counter">{profile.followers.length} Followers</p>

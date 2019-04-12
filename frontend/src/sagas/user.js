@@ -45,7 +45,7 @@ export function* updateUser(action){
        'Content-Type': 'application/json',
        'Authorization':action.payload.Authorization,
       },
-      body: JSON.stringify(      {
+      body: JSON.stringify({
               'firstname': action.payload.firstname,
               'lastname': action.payload.lastname
             })
@@ -72,11 +72,28 @@ export function* updateUserProfilePicture(action){
     yield put({ type: 'SET_PROFILE_PIC', payload:data});
 }
 
+export function* followUser(action){
+    //Do api call to get user info, include token as authentication.
+    const response = yield call(fetch, url+'follow', {
+      method:'POST',
+      headers: {
+       'Accept': 'application/json',
+       'Content-Type': 'application/json',
+       'Authorization':action.payload.Authorization,
+      },
+      body: JSON.stringify(action.payload.user_id)
+    });
+    const data = yield call([response, response.json]);
+    yield put({ type: 'SET_FOLLOWING_LIST', payload: data});
+}
+
 export function* watchUser() {
   yield takeLatest('GET_USER', getUser);
   yield takeLatest('GET_USER_PROFILE', getUserProfile);
   yield takeLatest('CLEAR_USER_PROFILE', clearUserProfile);
   yield takeLatest('UPDATE_USER', updateUser);
   yield takeLatest('UPDATE_USER_PROFILE_PIC', updateUserProfilePicture);
+  yield takeLatest('FOLLOW_USER', followUser);
+
 
 }
