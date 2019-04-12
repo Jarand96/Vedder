@@ -34,12 +34,19 @@ class ProfilePage extends Component {
   componentDidMount(){
     let { dispatch } = this.props
   }
+  getUser(){
+    let { dispatch } = this.props
+    dispatch({type: "GET_USER", payload: this.props.auth.token});
+  }
   // render
   render() {
     let profile = (this.state.isOwnProfile) ? this.props.ownProfile :
     this.props.profileInFocus
     if(!profile) return null;
-    if(!this.props.ownProfile) return null;
+    if(!this.props.ownProfile.following){
+      this.getUser()
+      return null;
+    }
     let isFollowing = this.props.ownProfile.following.includes(profile.id)
     //let isFollowing = profile.following.includes()
     // if this is not my profile and im not following the person already: show follow button.
