@@ -13,10 +13,12 @@ from .. import app
 def get_user():
     """sefsef"""
     try:
+
         _id = g.current_user["_id"]
         user = get_user_with_id(_id)
         users_posts = get_posts_from_user(_id)
         users_posts_new = enrich_posts(users_posts)
+        print(user)
         user['posts'] = users_posts_new
         if user:
             return jsonify(user), 200
@@ -33,6 +35,7 @@ def get_profile_info(_id):
         users_posts = get_posts_from_user(_id)
         users_posts_new = enrich_posts(users_posts)
         user['posts'] = users_posts_new
+        print(user)
         if user:
             return jsonify(user), 200
         return jsonify(error="User not found"), 404
@@ -82,11 +85,9 @@ def upload_user_profile_picture():
 def follow_user():
     """sefsef"""
     try:
-
         #Fix return Value
         #check if user is already following the person
         # if that is the case, unfollow
-
         # Add user_id to following, add me to their followers-list.
         _id = g.current_user["_id"]
         print("Follow - part 1")

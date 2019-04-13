@@ -62,8 +62,7 @@ class ProfilePage extends Component {
     //let isFollowing = profile.following.includes()
     // if this is not my profile and im not following the person already: show follow button.
     //if this is not my profile but im following this person show checkmark button or something
-    console.log(this.props)
-
+    console.log(profile)
     return(
       <div className="container">
         <div className="profile-info-container">

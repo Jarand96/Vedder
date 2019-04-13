@@ -116,7 +116,6 @@ def get_posts_from_user(_id):
     cursor = posts.find({"user_id": str(_id)})
     all_posts = []
     for post in cursor:
-        print("Hei")
         post['_id'] = str(post['_id'])
         all_posts.append(post)
     if all_posts:
