@@ -36,6 +36,7 @@ isEmpty(obj) {
       profileInFocus ?
       profileInFocus.posts : this.props.posts.posts
     )
+    console.log(this.props.user)
     if (posts.error) return (null)
     let url="http://127.0.0.1:5000/uploads/"
   	return (

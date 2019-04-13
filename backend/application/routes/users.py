@@ -17,9 +17,9 @@ def get_user():
         _id = g.current_user["_id"]
         user = get_user_with_id(_id)
         users_posts = get_posts_from_user(_id)
-        users_posts_new = enrich_posts(users_posts)
-        print(user)
-        user['posts'] = users_posts_new
+        if users_posts:
+            users_posts_new = enrich_posts(users_posts)
+            user['posts'] = users_posts_new
         if user:
             return jsonify(user), 200
         return jsonify(error=True), 404
@@ -35,7 +35,6 @@ def get_profile_info(_id):
         users_posts = get_posts_from_user(_id)
         users_posts_new = enrich_posts(users_posts)
         user['posts'] = users_posts_new
-        print(user)
         if user:
             return jsonify(user), 200
         return jsonify(error="User not found"), 404
@@ -90,7 +89,6 @@ def follow_user():
         # if that is the case, unfollow
         # Add user_id to following, add me to their followers-list.
         _id = g.current_user["_id"]
-        print("Follow - part 1")
         incoming = request.get_json()
         user = get_user_with_id(_id)
         follow_list = update_following_list(user["_id"], incoming)

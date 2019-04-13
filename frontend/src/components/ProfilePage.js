@@ -16,6 +16,7 @@ class ProfilePage extends Component {
     super(props);
     const {dispatch} = props;
     const id = this.props.params.id
+    dispatch({type: "GET_USER", payload: this.props.auth.token});
     let myProfile = (this.props.auth.id === id) ? true : false
     this.state = {
       user_id: id,
@@ -38,7 +39,7 @@ class ProfilePage extends Component {
   }
   getUser(){
     let { dispatch } = this.props
-    dispatch({type: "GET_USER", payload: this.props.auth.token});
+
   }
 
   followUser(){
@@ -54,10 +55,8 @@ class ProfilePage extends Component {
     let profile = (this.state.isOwnProfile) ? this.props.ownProfile :
     this.props.profileInFocus
     if(!profile) return null;
-    if(!this.props.ownProfile.following){
-      this.getUser()
-      return null;
-    }
+    console.log("is this my profile: " + this.state.isOwnProfile)
+    if(!this.props.ownProfile.following) return null;
     let isFollowing = this.props.ownProfile.following.includes(profile.id)
     //let isFollowing = profile.following.includes()
     // if this is not my profile and im not following the person already: show follow button.
