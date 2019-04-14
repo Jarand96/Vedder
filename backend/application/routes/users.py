@@ -94,8 +94,6 @@ def follow_user():
         incoming = request.get_json()
         user = get_user_with_id(_id)
         follow_list = update_following_list(user, incoming)
-        if follow_list:
-            return jsonify(follow_list), 200
-        return jsonify(error=True), 404
+        return jsonify(follow_list), 200
     except:
         return jsonify(error=True), 404
