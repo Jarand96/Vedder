@@ -122,24 +122,15 @@ def get_posts_from_user(_id):
 def update_following_list(user, target_user_id):
     """sfsfsfsfs"""
     # Add the target user to this users following list
-    print("Entered update_following_list")
     my_id = str(user['_id'])
-    print("fixed my id")
-    print(target_user_id)
     target_user = get_user_with_id(target_user_id)
-    print("This is my user: ")
-    print(target_user)
     if target_user_id in user["following"]:
-        print("You are already following this ")
         user['following'].remove(target_user_id)
         target_user['followers'].remove(my_id)
-        print("The target user now has these followers: ", target_user['followers'])
     else:
         user['following'].append(target_user_id)
         target_user['followers'].append(my_id)
 
     users.save(user)
     users.save(target_user)
-    print(user['following'])
-    print("Finished")
     return user['following']
