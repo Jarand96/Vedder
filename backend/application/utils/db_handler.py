@@ -10,14 +10,12 @@ posts = mydb["posts"]
 def get_user_with_email_and_password(email, password):
     """insert docstring"""
     user = users.find_one({"email": email.lower()})
-    print(user)
     if user and check_password_hash(user['password'], password):
         return user
     return None
 
 def user_already_in_db(email):
     """zef"""
-    print("Entered DB_Handler..Checking if user is in db")
     user = users.find_one({"email": email.lower()})
     if user:
         return True
@@ -74,7 +72,6 @@ def get_user_with_email(email):
 def get_user_with_id(_id):
     """Returs a user from db with given id."""
     user = users.find_one({"_id": ObjectId(_id)})
-    user['_id'] = str(user['_id'])
     if user:
         return user
     return None
@@ -122,17 +119,27 @@ def get_posts_from_user(_id):
         return all_posts
     return None
 
-def update_following_list(my_id, target_user_id):
+def update_following_list(user, target_user_id):
     """sfsfsfsfs"""
     # Add the target user to this users following list
-    user = get_user_with_id(my_id)
-    user['_id'] = ObjectId(user['_id'])
-    user['following'].append(target_user_id)
-    users.save(user)
-    # Add the current user to the target user followers list
+    print("Entered update_following_list")
+    my_id = str(user['_id'])
+    print("fixed my id")
+    print(target_user_id)
     target_user = get_user_with_id(target_user_id)
-    target_user['_id'] = ObjectId(target_user['_id'])
-    target_user['followers'].append(my_id)
-    users.save(target_user)
+    print("This is my user: ")
+    print(target_user)
+    if target_user_id in user["following"]:
+        print("You are already following this ")
+        user['following'].remove(target_user_id)
+        target_user['followers'].remove(my_id)
+        print("The target user now has these followers: ", target_user['followers'])
+    else:
+        user['following'].append(target_user_id)
+        target_user['followers'].append(my_id)
 
+    users.save(user)
+    users.save(target_user)
+    print(user['following'])
+    print("Finished")
     return user['following']

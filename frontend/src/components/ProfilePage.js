@@ -57,6 +57,7 @@ class ProfilePage extends Component {
     if(!profile) return null;
     console.log("is this my profile: " + this.state.isOwnProfile)
     if(!this.props.ownProfile.following) return null;
+    console.log(this.props.ownProfile.following)
     let isFollowing = this.props.ownProfile.following.includes(profile.id)
     //let isFollowing = profile.following.includes()
     // if this is not my profile and im not following the person already: show follow button.

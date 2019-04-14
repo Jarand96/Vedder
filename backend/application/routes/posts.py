@@ -43,7 +43,6 @@ def post_posts():
 
         if request.files['file_0']:
             for file in request.files:
-                print(request.files[file])
                 filepath, filename = fileUpload(request.files[file])
                 post['images'].append({
                     'filepath' : filepath,
@@ -67,7 +66,6 @@ def like_posts():
     """sefsef"""
     email = g.current_user["email"]
     incoming = request.get_json()
-    print(incoming)
     post = like_post(incoming['post_id'], email)
     if post:
         posts = find_related_posts(email)

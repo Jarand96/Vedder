@@ -13,9 +13,9 @@ from .. import app
 def get_user():
     """sefsef"""
     try:
-
         _id = g.current_user["_id"]
         user = get_user_with_id(_id)
+        user['_id'] = str(user['_id'])
         users_posts = get_posts_from_user(_id)
         if users_posts:
             users_posts_new = enrich_posts(users_posts)
@@ -32,6 +32,7 @@ def get_profile_info(_id):
     """sefsef"""
     try:
         user = get_user_with_id(_id)
+        user['_id'] = str(user['_id'])
         users_posts = get_posts_from_user(_id)
         users_posts_new = enrich_posts(users_posts)
         user['posts'] = users_posts_new
@@ -89,9 +90,10 @@ def follow_user():
         # if that is the case, unfollow
         # Add user_id to following, add me to their followers-list.
         _id = g.current_user["_id"]
+        print(_id)
         incoming = request.get_json()
         user = get_user_with_id(_id)
-        follow_list = update_following_list(user["_id"], incoming)
+        follow_list = update_following_list(user, incoming)
         if follow_list:
             return jsonify(follow_list), 200
         return jsonify(error=True), 404

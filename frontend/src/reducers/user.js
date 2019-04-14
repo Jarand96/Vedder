@@ -4,6 +4,7 @@ let initialState = {
  firstname: '',
  lastname: '',
  gender: '',
+ post:[]
 };
 
 function userReducer(state = initialState, action) {

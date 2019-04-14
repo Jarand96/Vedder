@@ -24,6 +24,7 @@ def enrich_posts(posts):
     for post in posts:
         user = get_user_with_id(post['user_id'])
         user['_id'] = str(user['_id'])
+        del user['password']
         post['creator'] = user
     return posts
 
