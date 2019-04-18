@@ -36,6 +36,9 @@ logout = () => {
          <NavItem eventKey={3} onClick={this.logout}>
            Logg ut
          </NavItem>
+         <NavItem eventKey={1} onClick={()=>{browserHistory.push('/advancedpost')}}>
+           Advanced posting
+         </NavItem>
       </Nav>
      )
    }
@@ -44,6 +47,10 @@ logout = () => {
        <Nav>
           <NavItem eventKey={1} onClick={()=>{browserHistory.push('/login')}}>
             Logg inn
+          </NavItem>
+
+          <NavItem eventKey={1} onClick={()=>{browserHistory.push('/advancedpost')}}>
+            Advanced posting
           </NavItem>
        </Nav>
      )
