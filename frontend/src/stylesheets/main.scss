@@ -163,3 +163,8 @@ margin: 4px;
 
 ///////////////////////////////////////////////////////////////////////////////
 //ADVANCED POST STYLES FROM HERE
+
+.grid-container{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr)
+}
