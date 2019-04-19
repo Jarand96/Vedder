@@ -10,6 +10,7 @@ class AdvancedPost extends Component {
     super(props);
     const {dispatch} = props;
     this.state = {
+      width: 1,
       grid : [],
     }
     this.addDiv = this.addDiv.bind(this);
@@ -81,12 +82,13 @@ class AdvancedPost extends Component {
       grid_height += 1;
     }
     grid.push({
-      "width": 12,
+      "width": parseInt(this.state.width),
       "height":1,
       "column_start": 1,
       "row_start": grid_height,
       "text" : "Hei på deg, jeg er en div.",
       "isPlaceholder" : false,
+      "backgroundColor" : randomColor()
     })
     this.setState({
       grid : grid
@@ -99,23 +101,35 @@ class AdvancedPost extends Component {
     let grid_style = {
       gridTemplateRows: `repeat(${grid_height}, 40px)`
     }
-
+    console.log(this.state)
     return(
     <div className="advanced_post">
         {grid.length>0 &&
           <div className = "grid-container" style={grid_style}>
           {grid.map((object, index) => {
+            console.log(object);
             let div_style = {
               gridColumnStart: object.column_start,
               gridColumnEnd: object.column_start + object.width,
               gridRowStart: object.row_start,
               gridRowEnd: object.row_start + object.height,
-              backgroundColor : randomColor()
+              backgroundColor : object.backgroundColor
             }
-            return (<div key={index} style={div_style}>{object.text}</div>)
+            return (<div onClick={() => {
+              this.setState({
+                'objectInFocus' : object 
+              })
+            }} key={index} style={div_style}>{object.text}</div>)
           })}
         </div>
         }
+        <div>
+        <label>width</label>
+        <input type='text' name="width" onChange={(e) => {
+          this.setState({
+            'width':e.target.value
+        })}}/>
+        </div>
         <button onClick={this.addDiv}>Add div</button>
     </div>
     )
