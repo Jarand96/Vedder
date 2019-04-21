@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {store} from "react";
 import { Link } from "react-router";
 import { connect } from 'react-redux';
+import update from 'immutability-helper';
 var randomColor = require('randomcolor');
 
 
@@ -16,6 +17,41 @@ class AdvancedPost extends Component {
     this.addDiv = this.addDiv.bind(this);
   }
 
+  moveX(steps){
+    let focusObject = this.state.grid[this.state.focusObjectIndex]
+    var object = JSON.parse(JSON.stringify(focusObject));
+    //If no div is selected.
+    if(!object){
+      console.log("Please select a div. ");
+      return
+    }
+    //If user is trying to move object out of the grid.
+    if ((object.column_start == 1 && steps<0)
+      || (object.column_start + object.width == 13 && steps>0)){
+      console.log("You can't do that..");
+      return
+    }
+    //Bruk isSpaceFree til å sjekke om kolonnen er ledig.
+    //returner feilmelding dersom plassen ikke er ledig og returner
+    //Fortsett hvis plassen er ledig.
+    let newColumnStart = object.column_start += steps
+    let freeSpace = this.isSpaceFree(newColumnStart, 1, object.row_start, object.height)
+    let focusObjectIndex = this.state.focusObjectIndex
+    if(freeSpace){
+      this.setState({
+        grid: update(this.state.grid, {
+          [focusObjectIndex]: {column_start: {$set: newColumnStart}}})
+      })
+    }
+    else{
+      console.log("Not enough space")
+    }
+  }
+
+  moveY(steps){
+
+  }
+
   isSpaceFree(column_start, width, row_start, height){
     let spaceIsFree = true;
     let grid = this.state.grid;
@@ -28,55 +64,38 @@ class AdvancedPost extends Component {
       let sharedColumn = false;
       //Check if there is already an object starting in that column
       if(column_start === object.column_start){
-          console.log("Object and freespace starts on the same column.")
           sharedColumn = true;
       }
       //Check if the space we are checking for is on the left side of the object.
       //And then checks if the object intercepts with the space we are checking.
       else if(column_start < object.column_start){
-          console.log("Free space start is lower than the objects start")
           if(column_end>object.column_start){
-            console.log("The freespace end at column: " + column_end)
-            console.log("The object starts at column: " + object.column_start)
-            console.log("Free space end is not lower than the objects start, that means they are sharing space.")
             sharedColumn = true;
           }
       }
       //The space we are checking is on the right side of current object
       else{
-        console.log("Free space start is bigger than objects start.")
           if(column_start<object.column_end){
-            console.log("Objects end is bigger than free space start, meaning they share column.")
             sharedColumn = true;
           }
       }
-
-      console.log("Column space check. Free space and object share column: " + sharedColumn)
       //If shared column is true, then we have to check if the object is on the same row also
       if(sharedColumn){
         if(row_start === object.row_start){
-          console.log("SHARED COLUMN AND SAME ROW START")
-          console.log("Failed because object with column start: " + object.column_start)
           spaceIsFree = false;
           }
         else if(row_start < object.row_start){
           //The freespace is intercepting with the objects bounds
           if(row_end > object.row_start){
-            console.log("FREE SPACE DOES NOT END BEFORE NEXT OBJECT STARTS")
-            console.log("Failed because object with row start: " + object.row_start)
-            console.log("Free space ends at: " + row_end + ", Object starts at: " + object.row_start)
             spaceIsFree = false;}
         }
         //If freespace start is bigger than object start
         else{
           if(row_start < object.row_end){
             //Freespace start must be bigger or equal to the end of object, if not:
-            console.log("OBJECT DOES NOT END BEFORE START OF FREESPACE")
-            console.log("Failed because object with row start: " + object.row_start)
-            console.log("Object ends at: " + object.row_end + ", Free space starts at: " + row_start)
             spaceIsFree = false;
+          }
         }
-      }
       }
     })
     return spaceIsFree
@@ -140,8 +159,9 @@ class AdvancedPost extends Component {
             }
             return (<div onClick={() => {
               this.setState({
-                'objectInFocus' : object
-              })
+                'objectInFocus' : object,
+                'focusObjectIndex' : index
+              }, () => {console.log(this.state)})
             }} key={index} style={div_style}>{object.text}</div>)
           })}
         </div>
@@ -175,6 +195,11 @@ class AdvancedPost extends Component {
         })}}/>
         </div>
         <button onClick={this.addDiv}>Add div</button>
+
+        <div className="controllers">
+          <button onClick={() => this.moveX(-1)}>Move Left</button>
+          <button onClick={() => this.moveX(1)}>Move right</button>
+        </div>
     </div>
     )
   }
