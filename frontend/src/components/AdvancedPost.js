@@ -16,6 +16,35 @@ class AdvancedPost extends Component {
     }
     this.addDiv = this.addDiv.bind(this);
   }
+  changeRightSideWidth(steps){
+    let focusObject = this.state.grid[this.state.focusObjectIndex]
+    var object = JSON.parse(JSON.stringify(focusObject));
+    if(!object)return
+
+    //hvis steps er negativ og width bare er en,
+    //eller brukeren prøver å utvide lenger en maks kolonne.
+    if (steps < 0 && object.width === 1
+    || steps > 0 && object.column_start + object.width >=13) {
+    console.log("Action not possible.");
+    return}
+
+    if(steps>0){
+      let freeSpace = this.isSpaceFree(object.column_start + object.width, steps, object.row_start, object.height)
+      if(!freeSpace){
+          console.log("Failed to change width of div. Likely due to lack of space")
+          return
+      }
+    }
+    let newWidth = object.width += steps
+    //Sjekk om det er ledig plass med kolonne start likt som nå, med med bredde likt som nå pluss steps.
+    let focusObjectIndex = this.state.focusObjectIndex
+    this.setState({
+      grid: update(this.state.grid, {
+        [focusObjectIndex]: {width: {$set: newWidth}}})
+    })
+    //Hvis det er ledig lagre state med ny bredde.
+    //Hvis det ikke er ledig plass skriv det til konsoll, vi tar oss av feilmeldinger senere.
+  }
 
   moveX(steps){
     let focusObject = this.state.grid[this.state.focusObjectIndex]
@@ -34,8 +63,15 @@ class AdvancedPost extends Component {
     //Bruk isSpaceFree til å sjekke om kolonnen er ledig.
     //returner feilmelding dersom plassen ikke er ledig og returner
     //Fortsett hvis plassen er ledig.
+    let freeSpace;
+    if(steps>0){
+      freeSpace = this.isSpaceFree(object.column_start+object.width, steps, object.row_start, object.height)
+    }
+    else{
+      let positive_steps = Math.abs(steps)
+      freeSpace = this.isSpaceFree(object.column_start-positive_steps, positive_steps, object.row_start, object.height)
+    }
     let newColumnStart = object.column_start += steps
-    let freeSpace = this.isSpaceFree(newColumnStart, 1, object.row_start, object.height)
     let focusObjectIndex = this.state.focusObjectIndex
     if(freeSpace){
       this.setState({
@@ -62,6 +98,7 @@ class AdvancedPost extends Component {
       //If that is the case, we have to check if the object is also on
       //the same row as the space we are checking.
       let sharedColumn = false;
+      console.log(object)
       //Check if there is already an object starting in that column
       if(column_start === object.column_start){
           sharedColumn = true;
@@ -75,7 +112,7 @@ class AdvancedPost extends Component {
       }
       //The space we are checking is on the right side of current object
       else{
-          if(column_start<object.column_end){
+          if(column_start<object.column_start + object.width){
             sharedColumn = true;
           }
       }
@@ -91,7 +128,7 @@ class AdvancedPost extends Component {
         }
         //If freespace start is bigger than object start
         else{
-          if(row_start < object.row_end){
+          if(row_start < object.row_start + object.height){
             //Freespace start must be bigger or equal to the end of object, if not:
             spaceIsFree = false;
           }
@@ -196,9 +233,13 @@ class AdvancedPost extends Component {
         </div>
         <button onClick={this.addDiv}>Add div</button>
 
-        <div className="controllers">
+        <div className="position_controllers">
           <button onClick={() => this.moveX(-1)}>Move Left</button>
           <button onClick={() => this.moveX(1)}>Move right</button>
+        </div>
+        <div className="size_controllers">
+          <button onClick={() => this.changeRightSideWidth(1)}>Expand right</button>
+          <button onClick={() => this.changeRightSideWidth(-1)}>Decrease right</button>
         </div>
     </div>
     )
