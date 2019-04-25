@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
+import browserHistory from '../services/history'
 import * as actionCreators from '../actions';
-import { url } from '../index';
+import url from '../index';
 
 function mapStateToProps(state) {
     return {
@@ -23,9 +23,9 @@ export function requireNoAuthentication(Component) {
 
         constructor(props) {
             super(props);
-            this.state = {
+            this.setState({
                 loaded: false,
-            };
+            });
             const {dispatch} = props;
         }
 
@@ -83,11 +83,6 @@ export function requireNoAuthentication(Component) {
             );
         }
     }
-
-    notAuthenticatedComponent.propTypes = {
-        loginSuccess: React.PropTypes.func,
-        isAuthenticated: React.PropTypes.bool,
-    };
 
     return connect(mapStateToProps, mapDispatchToProps)(notAuthenticatedComponent);
 

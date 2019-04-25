@@ -14,6 +14,7 @@ class AdvancedPost extends Component {
       width: 1,
       grid : [],
     }
+    this.gridContainer = React.createRef();
     this.addDiv = this.addDiv.bind(this);
   }
   changeRightSideWidth(steps){
@@ -175,7 +176,6 @@ class AdvancedPost extends Component {
       grid : grid
     })
   }
-  // render
   render(){
     let grid = this.state.grid
     let grid_height = this.getGridHeight();
@@ -185,7 +185,7 @@ class AdvancedPost extends Component {
     return(
     <div className="advanced_post">
         {grid.length>0 &&
-          <div className = "grid-container" style={grid_style}>
+          <div ref={this.gridContainer} className = "grid-container" style={grid_style}>
           {grid.map((object, index) => {
             let div_style = {
               gridColumnStart: object.column_start,

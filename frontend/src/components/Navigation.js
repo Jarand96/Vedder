@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {store} from "react";
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router';
+import browserHistory from '../services/history'
+import { withRouter } from "react-router";
 import { Navbar, Nav, NavItem, NavDropdown,MenuItem } from 'react-bootstrap';
 import { requireAuthentication } from './AuthenticatedComponent';
 
@@ -76,7 +77,9 @@ function mapStateToProps(state) {
     auth: state.auth,
   };
 }
-
+/*
 export default connect(
   mapStateToProps,
 )(Navigation);
+*/
+export default withRouter(connect(mapStateToProps)(Navigation))
