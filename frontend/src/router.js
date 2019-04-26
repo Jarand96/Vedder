@@ -13,7 +13,6 @@ import NotFound from "./components/NotFound";
 
 import { requireAuthentication }  from './components/AuthenticatedComponent';
 import { requireNoAuthentication }  from './components/notAuthenticatedComponent';
-console.log(AdvancedPost)
 // build the router
 const router = (
   <Router onUpdate={() => window.scrollTo(0, 0)} history={history}>

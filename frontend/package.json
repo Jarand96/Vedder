@@ -51,7 +51,7 @@
     "npm": "^6.9.0",
     "randomcolor": "^0.5.4",
     "react": "^16.8.6",
-    "react-bootstrap": "*",
+    "react-bootstrap": " 0.32.4",
     "react-dom": "^16.8.6",
     "react-fontawesome": "^1.6.1",
     "react-redux": "^7.0.2",
