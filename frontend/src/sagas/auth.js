@@ -1,7 +1,6 @@
-import { takeLatest, put, call, } from 'redux-saga/effects';
+import { takeLatest, put, call, delay } from 'redux-saga/effects';
 import { loginSuccess, loginUserFailure } from '../actions';
-import {delay} from 'redux-saga';
-import { browserHistory } from 'react-router';
+import browserHistory from '../services/history'
 import { url } from '../index';
 
 export function* LoginRequest(action) {

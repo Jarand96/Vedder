@@ -17,15 +17,17 @@ import { requireNoAuthentication }  from './components/notAuthenticatedComponent
 const router = (
   <Router onUpdate={() => window.scrollTo(0, 0)} history={history}>
     <Navigation />
-    <Switch>
-      <Route exact path="/" component={requireAuthentication(Home)}/>
-      <Route path="/register" component={requireNoAuthentication(Register)} />
-      <Route path="/advancedpost" component={requireNoAuthentication(AdvancedPost)} />
-      <Route path="/login" component={requireNoAuthentication(Login)} />
-      <Route path="/settings" component={requireAuthentication(Settings)} />
-      <Route path="/profile/:id" component={requireAuthentication(ProfilePage)} />
-      <Route path="*" component={NotFound}/>
-    </Switch>
+    <div className="container">
+      <Switch>
+        <Route exact path="/" component={requireAuthentication(Home)}/>
+        <Route path="/register" component={requireNoAuthentication(Register)} />
+        <Route path="/advancedpost" component={requireNoAuthentication(AdvancedPost)} />
+        <Route path="/login" component={requireNoAuthentication(Login)} />
+        <Route path="/settings" component={requireAuthentication(Settings)} />
+        <Route path="/profile/:id" component={requireAuthentication(ProfilePage)} />
+        <Route path="*" component={NotFound}/>
+      </Switch>
+    </div>
   </Router>
 );
 

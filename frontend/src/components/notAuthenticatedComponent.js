@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import browserHistory from '../services/history'
 import * as actionCreators from '../actions';
-import url from '../index';
+import {url} from '../index';
 
 function mapStateToProps(state) {
     return {
@@ -23,9 +23,9 @@ export function requireNoAuthentication(Component) {
 
         constructor(props) {
             super(props);
-            this.setState({
+            this.state = {
                 loaded: false,
-            });
+            };
             const {dispatch} = props;
         }
 

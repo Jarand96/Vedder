@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {store} from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { imageurl } from "../index"
 import ImageViewer from "./ImageViewer"
 import { connect } from 'react-redux';
