@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { connect } from 'react-redux';
 import update from 'immutability-helper';
 var randomColor = require('randomcolor');
+import GridItem from "./GridItem";
 
 
 class AdvancedPost extends Component {
@@ -49,7 +50,9 @@ class AdvancedPost extends Component {
 
   moveX(steps){
     let focusObject = this.state.grid[this.state.focusObjectIndex]
+    console.log(focusObject)
     var object = JSON.parse(JSON.stringify(focusObject));
+
     //If no div is selected.
     if(!object){
       console.log("Please select a div. ");
@@ -117,7 +120,6 @@ class AdvancedPost extends Component {
             sharedColumn = true;
           }
       }
-      //If shared column is true, then we have to check if the object is on the same row also
       if(sharedColumn){
         if(row_start === object.row_start){
           spaceIsFree = false;
@@ -177,6 +179,7 @@ class AdvancedPost extends Component {
     })
   }
   render(){
+    console.log(this.props)
     let grid = this.state.grid
     let grid_height = this.getGridHeight();
     let grid_style = {
@@ -194,12 +197,9 @@ class AdvancedPost extends Component {
               gridRowEnd: object.row_start + object.height,
               backgroundColor : object.backgroundColor
             }
-            return (<div onClick={() => {
-              this.setState({
-                'objectInFocus' : object,
-                'focusObjectIndex' : index
-              }, () => {console.log(this.state)})
-            }} key={index} style={div_style}>{object.text}</div>)
+            return(
+            <GridItem key={index} index={index} object={object}/>
+          )
           })}
         </div>
         }
@@ -231,7 +231,13 @@ class AdvancedPost extends Component {
             'row_start':e.target.value
         })}}/>
         </div>
-        <button onClick={this.addDiv}>Add div</button>
+        <button onClick={() => {
+          this.props.dispatch({type: "_ADD_DIV", payload: {
+            'index': 1,
+            'object': 2
+          }});
+          console.log(this.props)
+          }}>Add div</button>
 
         <div className="position_controllers">
           <button onClick={() => this.moveX(-1)}>Move Left</button>
@@ -248,6 +254,7 @@ class AdvancedPost extends Component {
 function mapStateToProps(state) {
   return {
       auth: state.auth,
+      advancedPost: state.advancedPost
     };
 }
 

@@ -1,4 +1,4 @@
-import { takeLatest, put, call, delay } from 'redux-saga/effects';
+import { take, put, call, fork, select, all, delay, takeEvery } from 'redux-saga/effects'
 import { loginSuccess, loginUserFailure } from '../actions';
 import browserHistory from '../services/history'
 import { url } from '../index';
@@ -77,8 +77,7 @@ export function* logout(action){
 
 
 export function* watchAuth() {
-	yield takeLatest('LOGIN_REQUEST', LoginRequest);
-  yield takeLatest('REGISTER_REQUEST', RegisterRequest);
-  yield takeLatest('LOGOUT_REQUEST', logout);
-
+    yield takeEvery('LOGIN_REQUEST', LoginRequest);
+    yield takeEvery('REGISTER_REQUEST', RegisterRequest);
+    yield takeEvery('LOGOUT_REQUEST', logout);
 }

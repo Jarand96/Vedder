@@ -25,6 +25,7 @@ class Login extends Component {
   }
 
   render(){
+    console.log(this.props)
   	return (
       <div className="login-wrapper">
       <LoginForm onSubmit={this.submit} />
@@ -40,6 +41,7 @@ function mapStateToProps(state) {
       auth: state.auth
     };
 }
+
 
 export default connect(
   mapStateToProps,
