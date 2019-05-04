@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {store} from "react";
 import { Link } from "react-router";
 import { connect } from 'react-redux';
+import { getGridHeight } from '../utils'
 import update from 'immutability-helper';
 var randomColor = require('randomcolor');
 import GridItem from "./GridItem";
@@ -16,7 +17,6 @@ class AdvancedPost extends Component {
       grid : [],
     }
     this.gridContainer = React.createRef();
-    this.addDiv = this.addDiv.bind(this);
   }
   changeRightSideWidth(steps){
     let focusObject = this.state.grid[this.state.focusObjectIndex]
@@ -92,96 +92,11 @@ class AdvancedPost extends Component {
 
   }
 
-  isSpaceFree(column_start, width, row_start, height){
-    let spaceIsFree = true;
-    let grid = this.state.grid;
-    let column_end = column_start + width;
-    let row_end = row_start + height;
-    grid.forEach((object, index)=> {
-      //Check if object is on the same columns as the free space
-      //If that is the case, we have to check if the object is also on
-      //the same row as the space we are checking.
-      let sharedColumn = false;
-      console.log(object)
-      //Check if there is already an object starting in that column
-      if(column_start === object.column_start){
-          sharedColumn = true;
-      }
-      //Check if the space we are checking for is on the left side of the object.
-      //And then checks if the object intercepts with the space we are checking.
-      else if(column_start < object.column_start){
-          if(column_end>object.column_start){
-            sharedColumn = true;
-          }
-      }
-      //The space we are checking is on the right side of current object
-      else{
-          if(column_start<object.column_start + object.width){
-            sharedColumn = true;
-          }
-      }
-      if(sharedColumn){
-        if(row_start === object.row_start){
-          spaceIsFree = false;
-          }
-        else if(row_start < object.row_start){
-          //The freespace is intercepting with the objects bounds
-          if(row_end > object.row_start){
-            spaceIsFree = false;}
-        }
-        //If freespace start is bigger than object start
-        else{
-          if(row_start < object.row_start + object.height){
-            //Freespace start must be bigger or equal to the end of object, if not:
-            spaceIsFree = false;
-          }
-        }
-      }
-    })
-    return spaceIsFree
-  }
-
-  getGridHeight(){
-    let max_height = 1;
-    this.state.grid.forEach((object, index) => {
-      let objects_height = object["row_start"] + object["height"] - 1
-      if(objects_height > max_height){
-        max_height = objects_height
-      }
-    })
-    return max_height
-  }
-
-  addDiv(){
-    let grid = this.state.grid;
-    let grid_height = this.getGridHeight();
-    let column_start = parseInt(this.state.column_start);
-    let row_start = parseInt(this.state.row_start);
-    let width = parseInt(this.state.width)
-    let height = parseInt(this.state.height)
-    let freeSpace = this.isSpaceFree(column_start,width,row_start,height);
-
-    console.log("Is space free: " + freeSpace)
-    if(!freeSpace){
-      row_start = grid_height + 1;
-    }
-    grid.push({
-      "width": width,
-      "height": height,
-      "column_start": column_start,
-      "row_start": row_start,
-      "text" : "Hei på deg, jeg er en div.",
-      "isPlaceholder" : false,
-      "backgroundColor" : randomColor()
-    })
-    this.setState({
-      grid : grid
-    })
-  }
   render(){
     console.log(this.props)
-    let grid = this.state.grid
-    let grid_height = this.getGridHeight();
+    //let grid = this.state.grid
+    let grid = this.props.advancedPost.grid
+    let grid_height = getGridHeight(grid);
     let grid_style = {
       gridTemplateRows: `repeat(${grid_height}, 40px)`
     }
