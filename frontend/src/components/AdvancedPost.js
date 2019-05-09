@@ -18,6 +18,24 @@ class AdvancedPost extends Component {
     }
     this.gridContainer = React.createRef();
   }
+
+  componentDidMount(){
+    this.props.dispatch({
+      type: "_SET_CONTAINER_WIDTH",
+      payload: this.gridContainer.current.offsetWidth
+    });
+    window.addEventListener("resize", () => {
+      this.props.dispatch({
+        type: "_SET_CONTAINER_WIDTH", payload: this.gridContainer.current.offsetWidth
+      })
+    })
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.props.dispatch({
+      type: "_SET_CONTAINER_WIDTH", payload: this.gridContainer.current.offsetWidth
+    }));
+  }
+
   changeRightSideWidth(steps){
     let focusObject = this.state.grid[this.state.focusObjectIndex]
     var object = JSON.parse(JSON.stringify(focusObject));
@@ -93,17 +111,17 @@ class AdvancedPost extends Component {
   }
 
   render(){
-    console.log(this.props)
     //let grid = this.state.grid
     let grid = this.props.advancedPost.grid
     let grid_height = getGridHeight(grid);
     let grid_style = {
       gridTemplateRows: `repeat(${grid_height}, 40px)`
     }
+    console.log(this.props)
     return(
-    <div className="advanced_post">
+    <div ref={this.gridContainer} className="advanced_post">
         {grid.length>0 &&
-          <div ref={this.gridContainer} className = "grid-container" style={grid_style}>
+          <div className = "grid-container" style={grid_style}>
           {grid.map((object, index) => {
             let div_style = {
               gridColumnStart: object.column_start,

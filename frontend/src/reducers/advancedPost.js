@@ -37,6 +37,11 @@ function advancedPostReducer(state = initialState, action) {
           objectInFocus: action.payload.object,
           focusObjectIndex: action.payload.index
         }
+      case 'SET_CONTAINER_WIDTH':
+        return {
+          ...state,
+          gridContainerWidth: action.payload
+        }
        }
     return state;
   }
