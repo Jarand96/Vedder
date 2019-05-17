@@ -65,47 +65,7 @@ class AdvancedPost extends Component {
     //Hvis det er ledig lagre state med ny bredde.
     //Hvis det ikke er ledig plass skriv det til konsoll, vi tar oss av feilmeldinger senere.
   }
-
-  moveX(steps){
-    let focusObject = this.state.grid[this.state.focusObjectIndex]
-    console.log(focusObject)
-    var object = JSON.parse(JSON.stringify(focusObject));
-
-    //If no div is selected.
-    if(!object){
-      console.log("Please select a div. ");
-      return
-    }
-    //If user is trying to move object out of the grid.
-    if ((object.column_start == 1 && steps<0)
-      || (object.column_start + object.width == 13 && steps>0)){
-      console.log("You can't do that..");
-      return
-    }
-    //Bruk isSpaceFree til å sjekke om kolonnen er ledig.
-    //returner feilmelding dersom plassen ikke er ledig og returner
-    //Fortsett hvis plassen er ledig.
-    let freeSpace;
-    if(steps>0){
-      freeSpace = this.isSpaceFree(object.column_start+object.width, steps, object.row_start, object.height)
-    }
-    else{
-      let positive_steps = Math.abs(steps)
-      freeSpace = this.isSpaceFree(object.column_start-positive_steps, positive_steps, object.row_start, object.height)
-    }
-    let newColumnStart = object.column_start += steps
-    let focusObjectIndex = this.state.focusObjectIndex
-    if(freeSpace){
-      this.setState({
-        grid: update(this.state.grid, {
-          [focusObjectIndex]: {column_start: {$set: newColumnStart}}})
-      })
-    }
-    else{
-      console.log("Not enough space")
-    }
-  }
-
+  
   moveY(steps){
 
   }
@@ -117,7 +77,6 @@ class AdvancedPost extends Component {
     let grid_style = {
       gridTemplateRows: `repeat(${grid_height}, 40px)`
     }
-    console.log(this.props)
     return(
     <div ref={this.gridContainer} className="advanced_post">
         {grid.length>0 &&

@@ -40,7 +40,8 @@ function advancedPostReducer(state = initialState, action) {
       case 'SET_CONTAINER_WIDTH':
         return {
           ...state,
-          gridContainerWidth: action.payload
+          gridContainerWidth: action.payload,
+          gridCellWidth: action.payload/12
         }
        }
     return state;
