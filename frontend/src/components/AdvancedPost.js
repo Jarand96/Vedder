@@ -65,7 +65,7 @@ class AdvancedPost extends Component {
     //Hvis det er ledig lagre state med ny bredde.
     //Hvis det ikke er ledig plass skriv det til konsoll, vi tar oss av feilmeldinger senere.
   }
-  
+
   moveY(steps){
 
   }
@@ -132,8 +132,14 @@ class AdvancedPost extends Component {
           }}>Add div</button>
 
         <div className="position_controllers">
-          <button onClick={() => this.moveX(-1)}>Move Left</button>
-          <button onClick={() => this.moveX(1)}>Move right</button>
+          <button onClick={() => {
+              console.log(this.props.advancedPost)
+              this.props.dispatch({type: "_MOVE_DIV_X", payload: -1});
+            }}>Move Left</button>
+            <button onClick={() => {
+                console.log(this.props.advancedPost)
+                this.props.dispatch({type: "_MOVE_DIV_X", payload: 1});
+              }}>Move Right</button>
         </div>
         <div className="size_controllers">
           <button onClick={() => this.changeRightSideWidth(1)}>Expand right</button>

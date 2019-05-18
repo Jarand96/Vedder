@@ -55,8 +55,12 @@ class GridItem extends Component {
     console.log("The width of one cell is: " + this.props.advancedPost.gridCellWidth)
     this.setState({
       dragging: false
-
     })
+    let deltaX = e.clientX - this.state.startX
+    let gridCellWidth = this.props.advancedPost.gridCellWidth
+    let steps = Math.ceil(deltaX/gridCellWidth)
+    console.log("The number of steps to move: " + steps)
+    this.props.dispatch({type: "_MOVE_DIV_X", payload: steps});
     e.stopPropagation()
     e.preventDefault()
 

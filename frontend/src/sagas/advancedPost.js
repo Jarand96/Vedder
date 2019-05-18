@@ -7,6 +7,7 @@ var randomColor = require('randomcolor');
 
 
 export const getGrid = (state) => state.advancedPost.grid
+export const getfocusObject = (state) => state.advancedPost.objectInFocus
 
 export function* setFocusObject(action){
     console.log("Setting focus object.")
@@ -16,7 +17,7 @@ export function* setFocusObject(action){
 export function* addDiv(action){
   let grid = yield select(getGrid);
   let grid_height = getGridHeight(grid);
-  let freeSpace = isSpaceFree(1,6,1,1, grid);
+  let freeSpace = isSpaceFree(1,6,1,1);
   let row_start = 1;
   if(!freeSpace){
     row_start = grid_height + 1;
@@ -48,7 +49,36 @@ export function* setContainerWidth(action){
     yield put({ type: 'SET_CONTAINER_WIDTH', payload: action.payload});
 }
 
-
+export function* moveX(action){
+  let steps = action.payload
+  let grid = yield select(getGrid);
+  let focusObject = yield select(getfocusObject)
+  let object = JSON.parse(JSON.stringify(focusObject));
+  console.log("These are inputted steps: " + steps)
+  //If no div is selected.
+  if(!object){
+    console.log("Please select a div. ");
+    return
+  }
+  //If user is trying to move object out of the grid.
+  if((object.column_start + steps < 1) ||
+  (object.column_start + object.width + steps > 13)){
+    console.log("Moving outside of bounds.");
+    return
+  }
+  let freeSpace;
+  let column_start = object.column_start
+  object.column_start += steps;
+  freeSpace = isSpaceFree(object.column_start, object.width, object.row_start, object.height)
+  let focusObjectIndex = grid.indexOf(focusObject)
+  if(freeSpace){
+    yield put({ type: 'UPDATE_GRID_ITEM', payload: {
+      'object' : object,
+      'index': focusObjectIndex
+    }});
+  }
+  else{ console.log("Not enough space") }
+}
 
 export function* watchAdvancedPost() {
   yield takeLatest('_SET_FOCUS_OBJECT', setFocusObject);
@@ -56,4 +86,5 @@ export function* watchAdvancedPost() {
   yield takeLatest('_CHANGE_DIV', changeDiv);
   yield takeLatest('_REMOVE_DIV', removeDiv);
   yield takeLatest('_SET_CONTAINER_WIDTH', setContainerWidth);
+  yield takeLatest('_MOVE_DIV_X', moveX);
 }

@@ -26,9 +26,11 @@ function advancedPostReducer(state = initialState, action) {
          break;
       case 'UPDATE_GRID_ITEM':
         newGrid = state.grid.slice()
-        newGrid.splice(action.payload.index, 1, action.payload.item)
+        newGrid.splice(action.payload.index, 1, action.payload.object)
         return {...state,
-          grid: newGrid
+          grid: newGrid,
+          objectInFocus: action.payload.object,
+          focusObjectIndex: action.payload.index
         }
         break;
       case 'SET_FOCUS_OBJECT':
