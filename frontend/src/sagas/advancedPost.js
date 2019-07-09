@@ -17,11 +17,10 @@ export function* setFocusObject(action){
 export function* addDiv(action){
   let grid = yield select(getGrid);
   let grid_height = getGridHeight(grid);
-  let freeSpace = isSpaceFree(1,6,1,1);
-  let row_start = 1;
-  if(!freeSpace){
-    row_start = grid_height + 1;
-  }
+  let row_start;
+  if(grid_height===0){
+    row_start=1
+  } else{row_start=grid_height+1}
   let item = {
     "width": 6,
     "height": 1,

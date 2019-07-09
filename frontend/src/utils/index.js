@@ -11,12 +11,11 @@ export function isSpaceFree(column_start, width, row_start, height){
   let column_end = column_start + width;
   let row_end = row_start + height;
   grid.forEach((object, index) => {
-    if(index === focusObjectIndex) return;
+    if(index == focusObjectIndex) return null;
     //Check if object is on the same columns as the free space
     //If that is the case, we have to check if the object is also on
     //the same row as the space we are checking.
     let sharedColumn = false;
-    console.log(object)
     //Check if there is already an object starting in that column
     if (column_start === object.column_start) {
       sharedColumn = true;
@@ -56,8 +55,7 @@ export function isSpaceFree(column_start, width, row_start, height){
 }
 
 export function getGridHeight(grid) {
-  console.log("entered getGridHeight")
-  let max_height = 1;
+  let max_height = 0;
   grid.forEach((object, index) => {
     let objects_height = object["row_start"] + object["height"] - 1
     if (objects_height > max_height) {
