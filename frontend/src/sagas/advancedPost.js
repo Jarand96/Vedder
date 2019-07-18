@@ -10,7 +10,6 @@ export const getGrid = (state) => state.advancedPost.grid
 export const getfocusObject = (state) => state.advancedPost.objectInFocus
 
 export function* setFocusObject(action){
-    console.log("Setting focus object.")
     yield put({ type: 'SET_FOCUS_OBJECT', payload: action.payload});
 }
 
@@ -30,44 +29,51 @@ export function* addDiv(action){
     "isPlaceholder" : false,
     "backgroundColor" : randomColor()
   }
-    yield put({ type: 'ADD_GRID_ITEM', payload: item});
+    yield put({ type: 'ADD_GRID_ITEM', payload: item });
+    yield put({ type: 'SET_GRID_ROWS', payload: row_start});
 }
 
 export function* changeDiv(action){
-
     yield put({ type: 'CHANGE_DIV', payload: action.payload});
 }
 
 export function* removeDiv(action){
-
     yield put({ type: 'REMOVE_DIV', payload: action.payload});
 }
 
 export function* setContainerWidth(action){
-
     yield put({ type: 'SET_CONTAINER_WIDTH', payload: action.payload});
 }
 
-export function* moveX(action){
-  let steps = action.payload
+export function* setCellHeight(action){
+    yield put({ type: 'SET_CELL_HEIGHT', payload: action.payload});
+}
+export function* setGridRows(action){
+    yield put({ type: 'SET_GRID_ROWS', payload: action.payload});
+}
+
+export function* moveDiv(action){
+  let xSteps = action.payload.xSteps;
+  let ySteps = action.payload.ySteps;
   let grid = yield select(getGrid);
   let focusObject = yield select(getfocusObject)
   let object = JSON.parse(JSON.stringify(focusObject));
-  console.log("These are inputted steps: " + steps)
-  //If no div is selected.
-  if(!object){
-    console.log("Please select a div. ");
-    return
-  }
+
   //If user is trying to move object out of the grid.
-  if((object.column_start + steps < 1) ||
-  (object.column_start + object.width + steps > 13)){
-    console.log("Moving outside of bounds.");
+  //This can be integrated in isSpaceFree
+  if((object.column_start + xSteps < 1) ||
+  (object.column_start + object.width + xSteps > 13) ||
+  (object.row_start + ySteps <= 0)){
     return
   }
+
+  //hvis object.row er større enn
   let freeSpace;
-  let column_start = object.column_start
-  object.column_start += steps;
+  object.column_start += xSteps;
+
+  //If steps is
+  object.row_start += ySteps;
+
   freeSpace = isSpaceFree(object.column_start, object.width, object.row_start, object.height)
   let focusObjectIndex = grid.indexOf(focusObject)
   if(freeSpace){
@@ -85,5 +91,7 @@ export function* watchAdvancedPost() {
   yield takeLatest('_CHANGE_DIV', changeDiv);
   yield takeLatest('_REMOVE_DIV', removeDiv);
   yield takeLatest('_SET_CONTAINER_WIDTH', setContainerWidth);
-  yield takeLatest('_MOVE_DIV_X', moveX);
+  yield takeLatest('_SET_CELL_HEIGHT', setCellHeight);
+  yield takeLatest('_SET_GRID_ROWS', setGridRows);
+  yield takeLatest('_MOVE_DIV', moveDiv);
 }

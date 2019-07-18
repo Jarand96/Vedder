@@ -54,7 +54,9 @@ export function isSpaceFree(column_start, width, row_start, height){
   return spaceIsFree
 }
 
-export function getGridHeight(grid) {
+export function getGridHeight() {
+  const state = store.getState();
+  const grid = state.advancedPost.grid
   let max_height = 0;
   grid.forEach((object, index) => {
     let objects_height = object["row_start"] + object["height"] - 1

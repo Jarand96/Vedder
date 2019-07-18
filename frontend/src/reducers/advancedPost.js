@@ -2,6 +2,7 @@ import jwtDecode from 'jwt-decode';
 
 let initialState = {
  grid: [],
+ gridRows: 0,
  objectInFocus: {},
  focusObjectIndex: 0,
 };
@@ -42,8 +43,20 @@ function advancedPostReducer(state = initialState, action) {
       case 'SET_CONTAINER_WIDTH':
         return {
           ...state,
-          gridContainerWidth: action.payload,
-          gridCellWidth: action.payload/12
+          gridContainerWidth: action.payload.width,
+          gridCellWidth: action.payload.width/12
+        }
+      case 'SET_CELL_HEIGHT':
+      let cellHeight = state.gridContainer
+        return {
+          ...state,
+          gridContainerHeight: action.payload,
+          gridCellHeight: action.payload / state.gridRows
+        }
+      case 'SET_GRID_ROWS':
+        return {
+          ...state,
+          gridRows: action.payload
         }
        }
     return state;

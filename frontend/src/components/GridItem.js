@@ -49,18 +49,19 @@ class GridItem extends Component {
     If yes, check freeSpace() with object in focus properties + the new x value
     *if yes, run the moveX function and pass in the amount of cells
     */
-    console.log(this.state.startX)
-    console.log(e.clientX);
-    console.log("The difference in X-position is: " + (e.clientX - this.state.startX))
-    console.log("The width of one cell is: " + this.props.advancedPost.gridCellWidth)
     this.setState({
       dragging: false
     })
-    let deltaX = e.clientX - this.state.startX
-    let gridCellWidth = this.props.advancedPost.gridCellWidth
-    let steps = Math.ceil(deltaX/gridCellWidth)
-    console.log("The number of steps to move: " + steps)
-    this.props.dispatch({type: "_MOVE_DIV_X", payload: steps});
+    let deltaX = e.clientX - this.state.startX;
+    let deltaY = e.clientY - this.state.startY;
+    let gridCellWidth = this.props.advancedPost.gridCellWidth;
+    let gridCellHeight = this.props.advancedPost.gridCellHeight;
+    let xSteps = Math.ceil(deltaX/gridCellWidth);
+    let ySteps = Math.ceil(deltaY/gridCellHeight);
+    this.props.dispatch({type: "_MOVE_DIV", payload: {
+      'xSteps' : xSteps,
+      'ySteps' : ySteps,
+    }});
     e.stopPropagation()
     e.preventDefault()
 

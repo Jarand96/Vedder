@@ -20,20 +20,37 @@ class AdvancedPost extends Component {
   }
 
   componentDidMount(){
-    this.props.dispatch({
-      type: "_SET_CONTAINER_WIDTH",
-      payload: this.gridContainer.current.offsetWidth
-    });
+      this.props.dispatch({
+        type: "_SET_CONTAINER_WIDTH",
+        payload: {
+          width: this.gridContainer.current.offsetWidth,
+          height: this.gridContainer.current.offsetHeight
+        }
+      });
+
     window.addEventListener("resize", () => {
       this.props.dispatch({
-        type: "_SET_CONTAINER_WIDTH", payload: this.gridContainer.current.offsetWidth
-      })
-    })
+        type: "_SET_CONTAINER_WIDTH", payload: {
+          width: this.gridContainer.current.offsetWidth,
+          height: this.gridContainer.current.offsetHeight
+        }
+      });
+    });
   }
   componentWillUnmount() {
     window.removeEventListener("resize", this.props.dispatch({
       type: "_SET_CONTAINER_WIDTH", payload: this.gridContainer.current.offsetWidth
     }));
+  }
+
+  componentDidUpdate(prevProps){
+    //hvis prevprops.gridHeight != this.prop.gridHeight:
+    //
+    if(prevProps.advancedPost.gridRows !== this.props.advancedPost.gridRows){
+      this.props.dispatch({
+        type: "_SET_CELL_HEIGHT", payload: this.gridContainer.current.offsetHeight
+      })
+    }
   }
 
   changeRightSideWidth(steps){
@@ -45,7 +62,6 @@ class AdvancedPost extends Component {
     //eller brukeren prøver å utvide lenger en maks kolonne.
     if (steps < 0 && object.width === 1
     || steps > 0 && object.column_start + object.width >=13) {
-    console.log("Action not possible.");
     return}
 
     if(steps>0){
@@ -66,62 +82,25 @@ class AdvancedPost extends Component {
     //Hvis det ikke er ledig plass skriv det til konsoll, vi tar oss av feilmeldinger senere.
   }
 
-  moveY(steps){
-
-  }
-
   render(){
     //let grid = this.state.grid
     let grid = this.props.advancedPost.grid
-    let grid_height = getGridHeight(grid);
+    let grid_height = getGridHeight();
     let grid_style = {
       gridTemplateRows: `repeat(${grid_height}, 40px)`
     }
+
     return(
-    <div ref={this.gridContainer} className="advanced_post">
-        {grid.length>0 &&
-          <div className = "grid-container" style={grid_style}>
+    <div className="advanced_post">
+          <div
+          className="grid-container"
+          ref={this.gridContainer}
+          style={grid_style}>
           {grid.map((object, index) => {
-            let div_style = {
-              gridColumnStart: object.column_start,
-              gridColumnEnd: object.column_start + object.width,
-              gridRowStart: object.row_start,
-              gridRowEnd: object.row_start + object.height,
-              backgroundColor : object.backgroundColor
-            }
             return(
             <GridItem key={index} index={index} object={object}/>
           )
           })}
-        </div>
-        }
-        <div className="input-group">
-        <label>width</label>
-        <input type='text' name="width" onChange={(e) => {
-          this.setState({
-            'width':e.target.value
-        })}}/>
-        </div>
-        <div className="input-group">
-        <label>height</label>
-        <input type='text' name="height" onChange={(e) => {
-          this.setState({
-            'height':e.target.value
-        })}}/>
-        </div>
-        <div className="input-group">
-        <label>Column start</label>
-        <input type='text' name="column_start" onChange={(e) => {
-          this.setState({
-            'column_start':e.target.value
-        })}}/>
-        </div>
-        <div className="input-group">
-        <label>Row start</label>
-        <input type='text' name="row_start" onChange={(e) => {
-          this.setState({
-            'row_start':e.target.value
-        })}}/>
         </div>
         <button onClick={() => {
           this.props.dispatch({type: "_ADD_DIV", payload: {
@@ -129,7 +108,7 @@ class AdvancedPost extends Component {
             'object': 2
           }});
           console.log(this.props)
-          }}>Add div</button>
+          }}>Add div</button>   
 
         <div className="position_controllers">
           <button onClick={() => {
