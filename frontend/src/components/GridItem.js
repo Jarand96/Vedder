@@ -56,8 +56,12 @@ class GridItem extends Component {
     let deltaY = e.clientY - this.state.startY;
     let gridCellWidth = this.props.advancedPost.gridCellWidth;
     let gridCellHeight = this.props.advancedPost.gridCellHeight;
-    let xSteps = Math.ceil(deltaX/gridCellWidth);
-    let ySteps = Math.ceil(deltaY/gridCellHeight);
+    let xSteps = Math.round(deltaX/gridCellWidth);
+
+    console.log("The delta X value is: " + deltaX);
+    console.log("The width of each cell in the grid is: " + gridCellWidth)
+    console.log("This is the number of steps moved: " + xSteps)
+    let ySteps = Math.round(deltaY/gridCellHeight);
     this.props.dispatch({type: "_MOVE_DIV", payload: {
       'xSteps' : xSteps,
       'ySteps' : ySteps,

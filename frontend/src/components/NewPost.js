@@ -14,10 +14,10 @@ const FileInput = ({
     value: omitValue,
     onChange,
     onBlur,
-    ...inputProps,
+    ...inputProps
   },
   meta: omitMeta,
-  ...props,
+  ...props
 }) =>
   <input
     onChange={adaptFileEventToValue(onChange)}
@@ -25,7 +25,6 @@ const FileInput = ({
     type="file"
     multiple
     {...inputProps}
-    {...props}
   />
 
 const NewPostForm = props => {
