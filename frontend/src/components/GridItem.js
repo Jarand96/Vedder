@@ -16,6 +16,7 @@ class GridItem extends Component {
 
  // This binding is necessary to make `this` work in the callback
  this._onMouseUp = this._onMouseUp.bind(this)
+ this._onMouseDown = this._onMouseDown.bind(this)
  }
 
   componentDidUpdate() {
@@ -29,7 +30,17 @@ class GridItem extends Component {
   }
 
   _onMouseDown(e){
+
     if (e.button !== 0) return
+
+    /*
+     * If the user clicks in the lower 5% or upper 5% of the divs X width,
+     * Then dragging is not true, but moving is.
+     */
+    let percent = e.nativeEvent.offsetX /
+                  this.gridItem.current.getBoundingClientRect().width * 100
+
+    console.log(percent)
     this.props.dispatch({type: "_SET_FOCUS_OBJECT", payload: {
       'index': this.props.index,
       'object': this.props.object
@@ -44,10 +55,11 @@ class GridItem extends Component {
   }
 
   _onMouseUp(e){
-    /*The user if finished dragging the object. and lets go.
-    *Check how many pixels the mouse moved in X direction. Over half the size of 1 cell?
-    If yes, check freeSpace() with object in focus properties + the new x value
-    *if yes, run the moveX function and pass in the amount of cells
+    /*
+    * The user if finished dragging the object. and lets go.
+    * Check how many pixels the mouse moved in X direction. Over half the size of 1 cell?
+    * If yes, check freeSpace() with object in focus properties + the new x value
+    * if yes, run the moveX function and pass in the amount of cells
     */
     this.setState({
       dragging: false
@@ -58,9 +70,7 @@ class GridItem extends Component {
     let gridCellHeight = this.props.advancedPost.gridCellHeight;
     let xSteps = Math.round(deltaX/gridCellWidth);
 
-    console.log("The delta X value is: " + deltaX);
-    console.log("The width of each cell in the grid is: " + gridCellWidth)
-    console.log("This is the number of steps moved: " + xSteps)
+
     let ySteps = Math.round(deltaY/gridCellHeight);
     this.props.dispatch({type: "_MOVE_DIV", payload: {
       'xSteps' : xSteps,

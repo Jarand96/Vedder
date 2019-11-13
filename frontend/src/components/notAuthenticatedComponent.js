@@ -29,7 +29,7 @@ export function requireNoAuthentication(Component) {
             const {dispatch} = props;
         }
 
-        componentWillMount() {
+        componentDidMount() {
             this.checkAuth();
         }
 
