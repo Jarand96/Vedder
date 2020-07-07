@@ -49,7 +49,7 @@
     "i": "^0.3.6",
     "immutability-helper": "^3.0.0",
     "jwt-decode": "^2.2.0",
-    "npm": "^6.9.0",
+    "npm": "^6.14.6",
     "randomcolor": "^0.5.4",
     "react": "^16.8.6",
     "react-bootstrap": " 0.32.4",
